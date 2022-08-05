@@ -1,1 +1,0 @@
-# Rausch Merscen & Co.

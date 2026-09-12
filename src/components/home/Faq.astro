@@ -1,0 +1,79 @@
+---
+import { faqs } from '../../data/faq';
+---
+
+<section class="section section--line faq" id="faq">
+  <div class="container faq__grid">
+    <div>
+      <p class="eyebrow"><span class="num">13</span> / FAQ</p>
+      <h2 class="display display-3" data-reveal="lines">For agents<br />and humans.</h2>
+    </div>
+    <div class="faq__list">
+      {faqs.map((f) => (
+        <details class="faq__item" data-reveal="fade">
+          <summary>
+            <span class="faq__q">{f.q}</span>
+            <span class="mono-sm faq__aud">{f.audience}</span>
+            <span class="faq__plus" aria-hidden="true">+</span>
+          </summary>
+          <p class="faq__a">{f.a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (max-width: 900px) {
+    .faq__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .faq__grid h2 {
+    margin-top: var(--space-m);
+  }
+  .faq__list {
+    border-top: 1px solid var(--line);
+  }
+  .faq__item {
+    border-bottom: 1px solid var(--line);
+  }
+  .faq__item summary {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr auto auto;
+    gap: var(--space-m);
+    align-items: center;
+    padding: var(--space-m) 0;
+    cursor: pointer;
+  }
+  .faq__item summary::-webkit-details-marker {
+    display: none;
+  }
+  .faq__q {
+    font-family: var(--font-display), sans-serif;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    font-size: var(--step-1);
+    letter-spacing: -0.02em;
+  }
+  .faq__plus {
+    font-size: var(--step-2);
+    color: var(--accent-text);
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+  .faq__item[open] .faq__plus {
+    transform: rotate(45deg);
+  }
+  .faq__a {
+    padding-bottom: var(--space-m);
+    color: var(--fg);
+    max-width: 70ch;
+  }
+</style>

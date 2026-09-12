@@ -1,0 +1,23 @@
+{
+  "name": "M. Mursaleen",
+  "description": "Engineering Leader / Tech Lead, Laravel & Node.js. Second-line leader directing ~80 engineers through team leads; built platforms integrated into Saudi Arabia's National Health Command Center; led the Eutelsat operations-dashboard backend team; runs an AI-orchestrated delivery system.",
+  "url": "https://1mursaleen.github.io",
+  "version": "1.0.0",
+  "provider": { "organization": "M. Mursaleen", "url": "https://1mursaleen.github.io" },
+  "documentationUrl": "https://1mursaleen.github.io/AGENTS.md",
+  "capabilities": { "streaming": false, "pushNotifications": false, "stateTransitionHistory": false },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["text/plain", "application/json", "text/markdown"],
+  "skills": [
+    { "id": "read-profile", "name": "Read profile", "description": "Fetch the structured resume, case studies and full narrative.", "tags": ["resume", "portfolio"], "examples": ["GET /resume.json", "GET /work.json", "GET /llms-full.txt"] },
+    { "id": "hire", "name": "Start a hire conversation", "description": "Email a JSON HireBrief (schema in /openapi.json) to mursaleen.1r@gmail.com. Static site: no POST endpoint.", "tags": ["hiring"], "examples": ["See /AGENTS.md"] }
+  ],
+  "resources": {
+    "agents": "https://1mursaleen.github.io/AGENTS.md",
+    "llms": "https://1mursaleen.github.io/llms.txt",
+    "llmsFull": "https://1mursaleen.github.io/llms-full.txt",
+    "resume": "https://1mursaleen.github.io/resume.json",
+    "work": "https://1mursaleen.github.io/work.json",
+    "openapi": "https://1mursaleen.github.io/openapi.json"
+  }
+}

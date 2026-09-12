@@ -1,0 +1,58 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import { services } from '../../data/services';
+import { buildMailto } from '../../lib/hire';
+---
+
+<section class="section section--line services" id="services">
+  <div class="container">
+    <SectionHeader
+      n="09"
+      label="Ways to work together"
+      title="Lead the org.<br />Or ship the <span class='accent'>module.</span>"
+      lede="Leadership first. The agent-ready machinery is the shared DNA; the story on top is leader-scale."
+    />
+    <ol class="services__grid">
+      {services.map((s) => (
+        <li class:list={['card services__card', { 'services__card--primary': s.primary }]} data-reveal="fade">
+          <span class="mono num">{s.tier}</span>
+          <h3 class="display display-4">{s.title}</h3>
+          <p class="services__tagline">{s.tagline}</p>
+          <p>{s.fit}</p>
+          <div class="services__actions">
+            <a class="link-arrow" href={`/services/#${s.id}`}>View scope <span class="arrow">↗</span></a>
+            <a class="link-arrow" href={buildMailto({ engagement: s.id === 'leadership' ? 'leadership-role' : s.id === 'advisory' ? 'advisory' : 'fixed-scope-delivery' })}>Enquire <span class="arrow">→</span></a>
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .services__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-l);
+  }
+  .services__card {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+  .services__card--primary {
+    border-color: var(--ink);
+    background: var(--surface-warm);
+  }
+  .services__tagline {
+    font-size: var(--step-1);
+    line-height: 1.35;
+    text-wrap: pretty;
+  }
+  .services__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    margin-top: auto;
+  }
+</style>

@@ -1,0 +1,139 @@
+---
+import { profile } from '../../data/profile';
+import { buildMailto } from '../../lib/hire';
+const year = new Date().getFullYear();
+const mailto = buildMailto();
+---
+
+<footer class="footer ink">
+  <div class="container">
+    <div class="footer__talk">
+      <p class="eyebrow eyebrow--accent">Let’s talk</p>
+      <a href={mailto} class="display display-1 footer__big" data-scramble-hover>Let’s<br />talk.</a>
+    </div>
+    <div class="footer__grid">
+      <div>
+        <p class="eyebrow">Contact</p>
+        <ul class="footer__list">
+          <li><a href={`mailto:${profile.email}`}>{profile.email}</a></li>
+          <li><a href={`tel:${profile.phone.replace(/[^+\d]/g, '')}`}>{profile.phone}</a></li>
+          <li><a href={profile.github} rel="me noopener" target="_blank">github.com/{profile.handle}</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Pages</p>
+        <ul class="footer__list">
+          <li><a href="/work/">All case studies</a></li>
+          <li><a href="/services/">Services</a></li>
+          <li><a href="/blog/">Blog</a></li>
+          <li><a href="/books/">Books</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">For agents</p>
+        <ul class="footer__list mono-list">
+          <li><a href="/AGENTS.md">/AGENTS.md</a></li>
+          <li><a href="/llms.txt">/llms.txt</a></li>
+          <li><a href="/resume.json">/resume.json</a></li>
+          <li><a href="/openapi.json">/openapi.json</a></li>
+          <li><a href="/work.json">/work.json</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="eyebrow">Base</p>
+        <ul class="footer__list">
+          <li>{profile.base}</li>
+          <li class="muted">{profile.remote}</li>
+          <li class="muted"><span class="live" aria-hidden="true">●</span> {profile.availability}</li>
+          <li><button type="button" class="link footer__motion" data-motion-toggle aria-pressed="true">Motion: on</button></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer__bottom mono-sm">
+      <span>© {year} {profile.name}</span>
+      <span>Built with an AI-orchestrated delivery system · Astro · Three.js · GSAP · Lenis</span>
+      <span><a href="/#sources">Every claim on this site is sourced</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const btn = document.querySelector<HTMLButtonElement>('[data-motion-toggle]');
+  if (btn) {
+    const isOff = () => {
+      try {
+        return localStorage.getItem('motion') === 'off';
+      } catch {
+        return false;
+      }
+    };
+    const paint = () => {
+      const off = isOff();
+      btn.textContent = off ? 'Motion: off' : 'Motion: on';
+      btn.setAttribute('aria-pressed', String(!off));
+    };
+    paint();
+    btn.addEventListener('click', () => {
+      try {
+        if (isOff()) localStorage.removeItem('motion');
+        else localStorage.setItem('motion', 'off');
+      } catch {
+        /* ignore */
+      }
+      location.reload();
+    });
+  }
+</script>
+
+<style>
+  .footer__motion {
+    font-size: var(--step--1);
+  }
+  .footer {
+    border-top: 1px solid var(--line);
+    padding-block: var(--section-pad) var(--space-xl);
+    background: var(--bg-0);
+  }
+  .footer__talk {
+    margin-bottom: var(--space-3xl);
+  }
+  .footer__big {
+    display: inline-block;
+    margin-top: var(--space-s);
+    transition: color var(--dur-1);
+  }
+  .footer__big:hover {
+    color: var(--yellow);
+  }
+  .footer__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-xl);
+    padding-block: var(--space-xl);
+    border-top: 1px solid var(--line);
+  }
+  .footer__list {
+    margin-top: var(--space-s);
+    display: grid;
+    gap: var(--space-2xs);
+    font-size: var(--step--1);
+  }
+  .footer__list a:hover {
+    color: var(--accent-text);
+  }
+  .mono-list {
+    font-family: var(--font-mono), monospace;
+    font-size: var(--step--2);
+  }
+  .live {
+    color: var(--accent-text);
+  }
+  .footer__bottom {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s) var(--space-xl);
+    justify-content: space-between;
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--line);
+  }
+</style>

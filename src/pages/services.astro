@@ -1,0 +1,90 @@
+---
+import Page from '../layouts/Page.astro';
+import { services } from '../data/services';
+import { buildMailto } from '../lib/hire';
+const engagementFor = (id: string) => (id === 'leadership' ? 'leadership-role' : id === 'advisory' ? 'advisory' : 'fixed-scope-delivery');
+---
+
+<Page
+  title="Services"
+  description="Engineering leadership, fixed-scope agentic delivery, and delivery-system advisory. PRD → Delivery → Maintenance, full lifecycle, agentically."
+  eyebrow="Services"
+  heading="Lead the org.<br />Or ship the <span class='accent'>module.</span>"
+  lede="Leadership first. The agent-ready machinery is the shared DNA; the story on top is leader-scale: government and enterprise delivery, not gig work."
+>
+  <section class="container section--tight svc">
+    {services.map((s) => (
+      <article id={s.id} class:list={['svc__item', { 'svc__item--primary': s.primary }]} data-reveal="fade">
+        <header class="svc__head">
+          <span class="mono num">{s.tier}</span>
+          <h2 class="display display-3">{s.title}</h2>
+          <p class="lede">{s.tagline}</p>
+        </header>
+        <div class="svc__body">
+          <p class="prose">{s.body}</p>
+          <div>
+            <p class="eyebrow">Scope</p>
+            <ul class="svc__scope">
+              {s.scope.map((line) => <li>{line}</li>)}
+            </ul>
+          </div>
+          <div>
+            <p class="eyebrow">Good fit</p>
+            <p class="muted">{s.fit}</p>
+          </div>
+          <a class="btn" href={buildMailto({ engagement: engagementFor(s.id) })}>Enquire about this <span class="arrow">→</span></a>
+        </div>
+      </article>
+    ))}
+  </section>
+</Page>
+
+<style>
+  .svc {
+    display: grid;
+    gap: var(--space-3xl);
+    padding-bottom: var(--section-pad);
+  }
+  .svc__item {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: var(--space-2xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--line);
+  }
+  @media (max-width: 900px) {
+    .svc__item {
+      grid-template-columns: 1fr;
+    }
+  }
+  .svc__item--primary {
+    border-top-color: var(--ink);
+    border-top-width: 3px;
+  }
+  .svc__head {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+  .svc__body {
+    display: grid;
+    gap: var(--space-l);
+    justify-items: start;
+  }
+  .svc__scope {
+    display: grid;
+    gap: var(--space-xs);
+    margin-top: var(--space-s);
+    color: var(--fg-muted);
+  }
+  .svc__scope li {
+    position: relative;
+    padding-left: 1.2em;
+  }
+  .svc__scope li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent);
+  }
+</style>

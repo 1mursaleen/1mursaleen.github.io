@@ -1,0 +1,66 @@
+---
+import Page from '../layouts/Page.astro';
+import { booksRead, booksToRead, booksFraming } from '../data/books';
+---
+
+<Page
+  title="Books"
+  description={`Reading list: ${booksFraming}`}
+  eyebrow="Books"
+  heading="Mostly leadership,<br />communication, and<br /><span class='accent'>building companies.</span>"
+>
+  <section class="container section--tight books">
+    <div class="books__col">
+      <p class="eyebrow"><span class="num">Read</span> · {booksRead.length}</p>
+      <ol class="books__list">
+        {booksRead.map((b, i) => (
+          <li data-reveal="fade">
+            <span class="mono-sm num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="display display-5">{b.title}</span>
+            <span class="muted">{b.author}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+    <div class="books__col">
+      <p class="eyebrow">Queue · {booksToRead.length}</p>
+      <ol class="books__list">
+        {booksToRead.map((b, i) => (
+          <li data-reveal="fade">
+            <span class="mono-sm num">{String(i + 1).padStart(2, '0')}</span>
+            <span class="display display-5 muted">{b.title}</span>
+            <span class="dim">{b.author}</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .books {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-2xl);
+    padding-bottom: var(--section-pad);
+  }
+  .books__col {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+  .books__list {
+    border-top: 1px solid var(--line);
+  }
+  .books__list li {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-2xs) var(--space-m);
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--line);
+  }
+  .books__list li > :nth-child(3) {
+    grid-column: 2;
+    font-size: var(--step--1);
+  }
+</style>

@@ -1,0 +1,60 @@
+---
+import Base from './Base.astro';
+import { articleJsonLd } from '../lib/seo';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate: Date;
+  updatedDate?: Date;
+  tags?: string[];
+}
+const { title, description, pubDate, updatedDate, tags = [] } = Astro.props;
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const fmt = (d: Date) => d.toISOString().slice(0, 10);
+---
+
+<Base
+  title={title}
+  description={description}
+  ogType="article"
+  jsonLd={articleJsonLd({ title, description, url, datePublished: pubDate.toISOString(), dateModified: updatedDate?.toISOString() })}
+>
+  <main class="article">
+    <header class="article__head container">
+      <p class="eyebrow"><a href="/blog/">Blog</a> / <span class="num">{fmt(pubDate)}</span></p>
+      <h1 class="display display-2" data-reveal="lines">{title}</h1>
+      <p class="lede muted" data-reveal="fade">{description}</p>
+      {tags.length > 0 && (
+        <ul class="article__tags">{tags.map((t) => <li class="tag">{t}</li>)}</ul>
+      )}
+    </header>
+    <article class="container article__body prose">
+      <slot />
+    </article>
+  </main>
+</Base>
+
+<style>
+  .article__head {
+    padding-block: clamp(3rem, 7vw, 7rem) var(--space-2xl);
+    display: grid;
+    gap: var(--space-m);
+    max-width: 960px;
+  }
+  .article__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+  .article__body {
+    padding-bottom: var(--section-pad);
+    max-width: 960px;
+  }
+  .article__body :global(p),
+  .article__body :global(ul),
+  .article__body :global(ol),
+  .article__body :global(blockquote) {
+    max-width: 68ch;
+  }
+</style>

@@ -1,0 +1,56 @@
+---
+import Page from '../../layouts/Page.astro';
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+---
+
+<Page
+  title="Blog"
+  description="Writing on engineering leadership and AI-orchestrated software delivery, with the files, loops and rubrics named."
+  eyebrow="Blog"
+  heading="Harness exposés<br />as <span class='accent'>proof of craft.</span>"
+  lede="Concrete write-ups of how the delivery system actually works: the orchestrator loop, the roles, the files that hold state, the gates that make speed safe."
+>
+  <section class="container section--tight posts">
+    <ol class="posts__list">
+      {posts.map((p) => (
+        <li class="posts__item" data-reveal="fade">
+          <a href={`/blog/${p.id}/`} class="posts__link">
+            <span class="mono-sm num">{p.data.pubDate.toISOString().slice(0, 10)}</span>
+            <span class="display display-4 posts__title">{p.data.title}</span>
+            <span class="muted">{p.data.description}</span>
+            <span class="posts__tags">{p.data.tags.map((t) => <span class="tag">{t}</span>)}</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+  </section>
+</Page>
+
+<style>
+  .posts {
+    padding-bottom: var(--section-pad);
+  }
+  .posts__list {
+    border-top: 1px solid var(--line);
+    max-width: 960px;
+  }
+  .posts__item {
+    border-bottom: 1px solid var(--line);
+  }
+  .posts__link {
+    display: grid;
+    gap: var(--space-s);
+    padding-block: var(--space-xl);
+  }
+  .posts__link:hover .posts__title {
+    color: var(--accent-text);
+  }
+  .posts__tags {
+    display: flex;
+    gap: var(--space-2xs);
+    flex-wrap: wrap;
+  }
+</style>

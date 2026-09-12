@@ -1,0 +1,32 @@
+---
+interface Props {
+  title: string;
+  body: string;
+}
+const { title, body } = Astro.props;
+---
+
+<aside class="stakes" data-reveal="fade">
+  <p class="eyebrow eyebrow--accent">{title}</p>
+  <p class="stakes__body">{body}</p>
+</aside>
+
+<style>
+  .stakes {
+    border-left: 3px solid var(--ink-2);
+    padding: var(--space-m);
+    background: var(--surface-warm);
+    color: var(--ink);
+    display: grid;
+    gap: var(--space-xs);
+  }
+  .stakes .eyebrow--accent {
+    color: var(--ink-2);
+  }
+  .stakes__body {
+    font-size: var(--step-0);
+    line-height: 1.5;
+    color: var(--ink);
+    text-wrap: pretty;
+  }
+</style>

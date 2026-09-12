@@ -1,0 +1,158 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import { aiThesis, principles, toolchain, orchestratorGraph as g } from '../../data/aiSystem';
+const byId = Object.fromEntries(g.nodes.map((n) => [n.id, n]));
+const path = (a: string, b: string) => {
+  const A = byId[a], B = byId[b];
+  const dx = (B.x - A.x) * 0.5;
+  return `M ${A.x} ${A.y} C ${A.x + dx} ${A.y}, ${B.x - dx} ${B.y}, ${B.x} ${B.y}`;
+};
+---
+
+<section class="section section--line system ink" id="system">
+  <div class="container">
+    <SectionHeader
+      n="04"
+      label="The delivery system"
+      title="Not “uses AI tools.”<br /><span class='accent'>Runs an operating model</span> built on them."
+      lede={aiThesis}
+    />
+
+    <figure class="orch" data-orchestrator>
+      <svg viewBox={`0 0 ${g.width} ${g.height}`} class="orch__svg" role="img" aria-labelledby="orch-title">
+        <title id="orch-title">Orchestrator diagram: PRD feeds an orchestrator that spawns builders, reviewers and testers; CI enforces coverage; merges and decisions persist to versioned files.</title>
+        <defs>
+          <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+            <path d="M0 0 L10 5 L0 10 z" fill="currentColor" />
+          </marker>
+        </defs>
+        <g class="orch__edges">
+          {g.edges.map(([a, b]) => (
+            <path d={path(a, b)} class:list={['orch__edge', { 'orch__edge--state': a === 'files' || b === 'files' }]} data-edge={`${a}-${b}`} marker-end="url(#arrow)" />
+          ))}
+        </g>
+        <g class="orch__tokens">
+          {['prd-orch', 'orch-b1', 'orch-b2', 'orch-b3', 'b1-rev', 'b2-test', 'b3-rev', 'rev-ci', 'test-ci', 'ci-merge', 'merge-files'].map((e) => (
+            <circle r="5" class="orch__token" data-token={e} />
+          ))}
+        </g>
+        <g class="orch__nodes">
+          {g.nodes.map((n) => (
+            <g class:list={['orch__node', `orch__node--${n.id}`]} transform={`translate(${n.x} ${n.y})`} data-node={n.id}>
+              <rect x="-80" y="-30" width="160" height="60" rx="8" />
+              <text y="-4" class="orch__label">{n.label}</text>
+              <text y="16" class="orch__sub">{n.sub}</text>
+            </g>
+          ))}
+        </g>
+      </svg>
+      <figcaption class="mono-sm">Spawn → build, review, test in parallel → CI → merge. State persists to versioned files and feeds the next session.</figcaption>
+    </figure>
+
+    <ol class="principles">
+      {principles.map((p) => (
+        <li class="principle" data-reveal="fade">
+          <span class="mono num">{p.n}</span>
+          <h3 class="display display-5">{p.title}</h3>
+          <p>{p.body}</p>
+        </li>
+      ))}
+    </ol>
+
+    <div class="toolchain">
+      <p class="eyebrow">The toolchain the system draws on</p>
+      <ul class="toolchain__list">
+        {toolchain.map((t) => <li class="tag">{t}</li>)}
+      </ul>
+      <p class="toolchain__note">The tools are not the headline. The orchestration, durable state, review gates and CI-enforced test suites are.</p>
+      <a class="link-arrow" href="/blog/ai-orchestrated-delivery-system/">Read the full write-up <span class="arrow">↗</span></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .orch {
+    margin: 0 0 var(--space-3xl);
+    display: grid;
+    gap: var(--space-s);
+  }
+  .orch__svg {
+    width: 100%;
+    height: auto;
+    overflow: visible;
+    color: var(--fg-dim);
+  }
+  .orch__edge {
+    fill: none;
+    stroke: var(--line-strong);
+    stroke-width: 1.5;
+  }
+  .orch__edge--state {
+    stroke-dasharray: 6 6;
+    stroke: var(--fg-dim);
+  }
+  .orch__token {
+    fill: var(--yellow);
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+    opacity: 0;
+  }
+  .orch__node rect {
+    fill: var(--bg-1);
+    stroke: var(--line-strong);
+    stroke-width: 1.5;
+  }
+  .orch__node--orch rect,
+  .orch__node--merge rect {
+    stroke: var(--yellow);
+    stroke-width: 2;
+  }
+  .orch__node--files rect {
+    fill: var(--bg-2);
+    stroke: var(--fg-muted);
+    stroke-dasharray: 4 4;
+  }
+  .orch__label {
+    fill: var(--fg);
+    font-family: var(--font-display), sans-serif;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    font-size: 20px;
+    text-anchor: middle;
+    letter-spacing: -0.01em;
+  }
+  .orch__sub {
+    fill: var(--fg-muted);
+    font-family: var(--font-mono), monospace;
+    font-size: 11px;
+    letter-spacing: 0.05em;
+    text-anchor: middle;
+    text-transform: uppercase;
+  }
+  .principles {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-xl) var(--space-l);
+    counter-reset: p;
+  }
+  .principle {
+    display: grid;
+    gap: var(--space-xs);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--line);
+    align-content: start;
+  }
+  .toolchain {
+    margin-top: var(--space-3xl);
+    display: grid;
+    gap: var(--space-m);
+    justify-items: start;
+  }
+  .toolchain__list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+  .toolchain__note {
+    max-width: 60ch;
+  }
+</style>

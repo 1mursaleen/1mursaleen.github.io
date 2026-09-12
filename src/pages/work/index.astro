@@ -1,0 +1,105 @@
+---
+import Page from '../../layouts/Page.astro';
+import { caseStudies } from '../../data/caseStudies';
+import { secondaryProjects } from '../../data/secondary';
+const sorted = [...caseStudies].sort((a, b) => a.order - b.order);
+---
+
+<Page
+  title="Case studies"
+  description="Seven systems with stakes: national health infrastructure, satellite ground segment, a Sequoia-backed HIS, Tribal climate monitoring, private lending, regulated French finance, and the events platform that went 20x."
+  eyebrow="Work"
+  heading="Seven systems.<br />Each with <span class='accent'>stakes.</span>"
+>
+  <section class="container section--tight">
+    <ol class="list">
+      {sorted.map((cs) => (
+        <li class="row" data-reveal="fade">
+          <a href={`/work/${cs.slug}/`} class="row__link">
+            <span class="mono-sm num">0{cs.order}</span>
+            <span class="row__main">
+              <span class="display display-4 row__title">{cs.title}</span>
+              <span class="muted">{cs.client} · {cs.period} · {cs.teamSize}</span>
+            </span>
+            <span class="row__nums">
+              {cs.numbers.slice(0, 2).map((n) => (
+                <span><b class="num">{n.value}</b> <span class="mono-sm">{n.label}</span></span>
+              ))}
+            </span>
+            <span class="arrow" aria-hidden="true">↗</span>
+          </a>
+        </li>
+      ))}
+    </ol>
+    <div class="more">
+      <p class="eyebrow">More work</p>
+      <ul class="more__list">
+        {secondaryProjects.map((p) => (
+          <li><a href={p.url} target="_blank" rel="noopener"><b>{p.name}</b></a> <span class="muted">— {p.body}</span></li>
+        ))}
+      </ul>
+    </div>
+  </section>
+</Page>
+
+<style>
+  .list {
+    border-top: 1px solid var(--line);
+  }
+  .row {
+    border-bottom: 1px solid var(--line);
+  }
+  .row__link {
+    display: grid;
+    grid-template-columns: auto 1fr auto auto;
+    gap: var(--space-l);
+    align-items: center;
+    padding-block: var(--space-l);
+    transition: padding-left var(--dur-2) var(--ease-out);
+  }
+  .row__link:hover {
+    padding-left: var(--space-s);
+  }
+  .row__link:hover .row__title {
+    color: var(--accent-text);
+  }
+  .row__main {
+    display: grid;
+    gap: var(--space-xs);
+  }
+  .row__title {
+    font-size: var(--step-3);
+  }
+  .row__nums {
+    display: grid;
+    gap: var(--space-xs);
+    text-align: right;
+  }
+  .row__nums b {
+    font-family: var(--font-display), sans-serif;
+    font-size: var(--step-1);
+  }
+  @media (max-width: 800px) {
+    .row__link {
+      grid-template-columns: auto 1fr auto;
+    }
+    .row__nums {
+      display: none;
+    }
+  }
+  .arrow {
+    color: var(--fg-dim);
+    font-size: var(--step-2);
+  }
+  .more {
+    margin-top: var(--space-3xl);
+    display: grid;
+    gap: var(--space-m);
+    padding-bottom: var(--section-pad);
+  }
+  .more__list {
+    display: grid;
+    gap: var(--space-s);
+    max-width: 80ch;
+  }
+</style>

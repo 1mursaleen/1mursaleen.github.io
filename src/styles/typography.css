@@ -1,0 +1,186 @@
+.display {
+  font-family: var(--font-display), 'Arial Narrow', Arial, sans-serif;
+  font-weight: var(--w-bold);
+  letter-spacing: -0.025em;
+  line-height: 0.9;
+  text-transform: uppercase;
+  text-wrap: balance;
+}
+.display em,
+.display i,
+.display .accent {
+  font-style: italic;
+  font-weight: inherit;
+}
+.display-1 {
+  font-size: var(--step-7);
+  line-height: 0.85;
+  letter-spacing: -0.03em;
+}
+.display-2 {
+  font-size: var(--step-6);
+}
+.display-3 {
+  font-size: var(--step-5);
+}
+.display-4 {
+  font-size: var(--step-4);
+}
+.display-5 {
+  font-size: var(--step-3);
+  letter-spacing: -0.015em;
+  line-height: 1.02;
+  text-transform: none;
+}
+/* Emphasis is italic, same weight. Yellow highlight is reserved: use .hl sparingly. */
+.accent {
+  font-style: italic;
+}
+.hl {
+  background: var(--yellow);
+  color: var(--ink);
+  padding: 0 0.08em;
+  margin: 0 -0.02em;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  font-style: normal;
+}
+b,
+strong {
+  font-weight: var(--w-regular);
+  font-style: italic;
+}
+.display .outline {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--fg);
+}
+
+.eyebrow,
+.mono {
+  font-family: var(--font-mono), SFMono-Regular, Menlo, monospace;
+  font-size: var(--step--1);
+  font-weight: var(--w-regular);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--fg);
+}
+.eyebrow--accent {
+  color: var(--fg);
+}
+.mono-sm {
+  font-family: var(--font-mono), SFMono-Regular, Menlo, monospace;
+  font-size: var(--step--2);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+}
+
+.lede {
+  font-size: var(--step-1);
+  line-height: 1.45;
+  color: var(--fg);
+  max-width: 62ch;
+  text-wrap: pretty;
+}
+.lede b,
+.lede strong {
+  font-style: italic;
+  color: var(--fg);
+}
+
+.prose {
+  max-width: 68ch;
+  font-size: var(--step-0);
+  line-height: 1.65;
+  color: var(--fg);
+}
+.prose p + p {
+  margin-top: var(--space-m);
+}
+.prose--muted {
+  color: var(--fg-muted);
+}
+.prose h2,
+.prose h3 {
+  font-family: var(--font-display), sans-serif;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  text-transform: uppercase;
+  margin-top: var(--space-2xl);
+  margin-bottom: var(--space-s);
+  color: var(--fg);
+}
+.prose h2 {
+  font-size: var(--step-4);
+  font-weight: var(--w-bold);
+}
+.prose h3 {
+  font-size: var(--step-2);
+  font-weight: var(--w-bold);
+  text-transform: none;
+}
+.prose ul,
+.prose ol {
+  margin-top: var(--space-m);
+  padding-left: 1.2em;
+  list-style: disc;
+}
+.prose ol {
+  list-style: decimal;
+}
+.prose li + li {
+  margin-top: var(--space-2xs);
+}
+.prose blockquote {
+  margin: var(--space-xl) 0;
+  padding-left: var(--space-m);
+  border-left: 3px solid var(--ink);
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--step-2);
+  font-weight: var(--w-bold);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+}
+.prose code {
+  font-family: var(--font-mono), monospace;
+  font-size: 0.9em;
+  background: var(--bg-2);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+.prose pre {
+  background: var(--bg-1);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: var(--space-m);
+  overflow-x: auto;
+  font-size: var(--step--1);
+  line-height: 1.5;
+  margin-top: var(--space-m);
+}
+.prose pre code {
+  background: none;
+  padding: 0;
+  font-size: inherit;
+}
+.prose hr {
+  border: 0;
+  border-top: 1px solid var(--line);
+  margin: var(--space-2xl) 0;
+}
+
+.pull-quote {
+  font-family: var(--font-display), sans-serif;
+  font-size: var(--step-3);
+  font-weight: var(--w-bold);
+  font-style: italic;
+  letter-spacing: -0.02em;
+  line-height: 1.0;
+  text-wrap: balance;
+}
+.pull-quote::before {
+  content: '“';
+}
+.pull-quote::after {
+  content: '”';
+}

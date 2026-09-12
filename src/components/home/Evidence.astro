@@ -1,0 +1,68 @@
+---
+import { evidence, evidenceAnswer } from '../../data/evidence';
+const support = evidence.filter((e) => e.kind === 'support');
+const counter = evidence.filter((e) => e.kind === 'counterweight');
+---
+
+<section class="section section--line evidence" id="evidence">
+  <div class="container">
+    <p class="eyebrow"><span class="num">05</span> / What the studies actually show</p>
+    <h2 class="display display-3 evidence__title" data-reveal="lines">Specific figures.<br />Never a flat <em>“10×”.</em></h2>
+    <div class="evidence__grid">
+      <ol class="evidence__list">
+        {support.map((e) => (
+          <li class="evidence__row" data-reveal="fade">
+            <p class="mono-sm">{e.source}</p>
+            <p>{e.claim}</p>
+          </li>
+        ))}
+        {counter.map((e) => (
+          <li class="evidence__row evidence__row--counter" data-reveal="fade">
+            <p class="mono-sm">Counterweight · {e.source}</p>
+            <p>{e.claim}</p>
+          </li>
+        ))}
+      </ol>
+      <aside class="evidence__side">
+        <blockquote class="pull-quote" data-reveal="fade">{evidenceAnswer}</blockquote>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .evidence__title {
+    margin-top: var(--space-m);
+    max-width: 22ch;
+  }
+  .evidence__grid {
+    margin-top: var(--space-2xl);
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .evidence__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .evidence__list {
+    border-top: 1px solid var(--line);
+  }
+  .evidence__row {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--line);
+  }
+  .evidence__row--counter {
+    background: var(--surface-warm);
+    padding-inline: var(--space-m);
+    margin-inline: calc(-1 * var(--space-m));
+  }
+  .evidence__side {
+    position: sticky;
+    top: 12vh;
+  }
+</style>

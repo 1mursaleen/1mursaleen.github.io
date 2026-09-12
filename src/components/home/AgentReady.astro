@@ -1,0 +1,165 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import GlHost from '../gl/GlHost.astro';
+import { profile } from '../../data/profile';
+import { buildMailto, hireBriefTemplate } from '../../lib/hire';
+const mailto = buildMailto();
+const snippet = `# AGENTS.md — hire ${profile.name} from your agent
+Read: ${profile.site}/llms.txt  ·  ${profile.site}/resume.json  ·  ${profile.site}/work.json
+Then email a JSON brief to ${profile.email}:
+${JSON.stringify(hireBriefTemplate, null, 2)}`;
+const endpoints = [
+  { href: '/AGENTS.md', label: 'AGENTS.md', desc: 'Brief for agents, hire protocol' },
+  { href: '/llms.txt', label: 'llms.txt', desc: 'Plain-text index' },
+  { href: '/llms-full.txt', label: 'llms-full.txt', desc: 'Everything, flattened' },
+  { href: '/resume.json', label: 'resume.json', desc: 'JSON Resume schema' },
+  { href: '/work.json', label: 'work.json', desc: 'Structured case studies' },
+  { href: '/openapi.json', label: 'openapi.json', desc: 'OpenAPI 3.1 description' },
+  { href: '/.well-known/agent-card.json', label: '.well-known/agent-card.json', desc: 'Discovery card' },
+];
+---
+
+<section class="section section--line agent ink" id="agent-ready">
+  <GlHost scene="field" class="agent__field" aspect="auto" />
+  <div class="container agent__inner">
+    <SectionHeader
+      n="12"
+      label="Agent-ready"
+      title="Hire me <span class='accent' data-scramble>from your agent.</span>"
+      lede="This portfolio publishes itself in machine-readable form. Point ChatGPT, Claude or any agent at the files below; every claim on the human pages derives from the same data."
+    />
+    <div class="agent__grid">
+      <div class="agent__code" data-reveal="fade">
+        <div class="agent__code-head">
+          <span class="mono-sm">AGENTS.md</span>
+          <button class="mono-sm agent__copy" data-copy-target="agents-snippet" type="button">Copy</button>
+        </div>
+        <pre id="agents-snippet"><code>{snippet}</code></pre>
+        <p class="mono-sm agent__note">Static site, so there is no POST endpoint. The brief travels by email; the link below pre-fills it.</p>
+        <a href={mailto} class="btn">Open pre-filled hire brief <span class="arrow">→</span></a>
+      </div>
+      <ul class="agent__endpoints" data-reveal="fade">
+        {endpoints.map((e) => (
+          <li>
+            <a href={e.href} class="agent__endpoint">
+              <span class="mono">GET {e.label}</span>
+              <span class="muted">{e.desc}</span>
+              <span class="arrow" aria-hidden="true">↗</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .agent {
+    overflow: clip;
+  }
+  .agent__field {
+    position: absolute !important;
+    inset: 0;
+    aspect-ratio: auto !important;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.6;
+  }
+  .agent__inner {
+    position: relative;
+    z-index: 1;
+  }
+  .agent__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .agent__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .agent__code {
+    display: grid;
+    gap: var(--space-m);
+    justify-items: start;
+  }
+  .agent__code-head {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+  .agent__copy {
+    color: var(--yellow);
+  }
+  .agent__code pre {
+    width: 100%;
+    margin: 0;
+    background: var(--bg-1);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: var(--space-m);
+    font-family: var(--font-mono), monospace;
+    font-size: var(--step--1);
+    line-height: 1.55;
+    overflow-x: auto;
+    color: var(--fg);
+  }
+  .agent__endpoints {
+    display: grid;
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .agent__endpoint {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.2em var(--space-s);
+    padding: var(--space-m);
+    background: var(--bg-0);
+    transition: background var(--dur-1);
+  }
+  .agent__endpoint .mono {
+    grid-column: 1;
+    grid-row: 1;
+    color: var(--fg);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+  .agent__endpoint .muted {
+    grid-column: 1;
+    grid-row: 2;
+    font-size: var(--step--1);
+  }
+  .agent__endpoint .arrow {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    align-self: center;
+    color: var(--fg-dim);
+  }
+  .agent__endpoint:hover {
+    background: var(--bg-1);
+  }
+  .agent__endpoint:hover .arrow {
+    color: var(--yellow);
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-copy-target]').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const el = document.getElementById(btn.dataset.copyTarget!);
+      if (!el) return;
+      try {
+        await navigator.clipboard.writeText(el.textContent ?? '');
+        btn.textContent = 'Copied';
+        setTimeout(() => (btn.textContent = 'Copy'), 1500);
+      } catch {
+        btn.textContent = 'Select & copy';
+      }
+    });
+  });
+</script>

@@ -1,0 +1,105 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import { impactThread, volunteer, impactSummary } from '../../data/impact';
+import { places } from '../../data/places';
+---
+
+<section class="section section--line impact" id="impact">
+  <div class="container">
+    <SectionHeader
+      n="08"
+      label="The impact thread"
+      title="Four countries.<br />Three continents.<br /><span class='accent'>One thread.</span>"
+      lede={impactSummary}
+    />
+    <div class="impact__thread">
+      <svg class="impact__line" viewBox="0 0 1200 8" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 4 H1200" class="impact__line-path" data-draw />
+      </svg>
+      <ol class="impact__stops">
+        {impactThread.map((s, i) => (
+          <li class="impact__stop" data-reveal="fade">
+            <span class="impact__dot" aria-hidden="true"></span>
+            <p class="mono-sm">{s.era} · {places[s.placeId].name}</p>
+            <h3 class="display display-5">{s.title}</h3>
+            <p>{s.body}</p>
+            {s.link && <a class="link-arrow" href={s.link.href} target="_blank" rel="noopener">{s.link.label} <span class="arrow">↗</span></a>}
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="impact__volunteer">
+      <p class="eyebrow">Volunteer engineering, Pakistan</p>
+      <ul class="impact__orgs">
+        {volunteer.map((v) => (
+          <li class="card" data-reveal="fade">
+            <a href={v.url} target="_blank" rel="noopener" class="impact__org-name display">{v.name} ↗</a>
+            <p>{v.what}</p>
+            <p class="muted">{v.about}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<style>
+  .impact__thread {
+    position: relative;
+    display: grid;
+    gap: var(--space-l);
+  }
+  .impact__line {
+    width: 100%;
+    height: 8px;
+  }
+  .impact__line-path {
+    stroke: var(--ink-2);
+    stroke-width: 2;
+    fill: none;
+  }
+  .impact__stops {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-l);
+  }
+  .impact__stop {
+    display: grid;
+    gap: var(--space-xs);
+    align-content: start;
+    position: relative;
+    padding-top: var(--space-s);
+  }
+  .impact__dot {
+    position: absolute;
+    top: calc(-1 * var(--space-l) - 3px);
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  .impact__volunteer {
+    margin-top: var(--space-3xl);
+    display: grid;
+    gap: var(--space-m);
+  }
+  .impact__orgs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-l);
+  }
+  .impact__orgs li {
+    display: grid;
+    gap: var(--space-xs);
+    align-content: start;
+  }
+  .impact__org-name {
+    font-size: var(--step-2);
+    font-weight: var(--w-bold);
+  }
+  .impact__org-name:hover {
+    color: var(--accent-text);
+  }
+</style>

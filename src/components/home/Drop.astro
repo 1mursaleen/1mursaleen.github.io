@@ -1,0 +1,345 @@
+---
+/**
+ * The Drop: full-viewport, scroll-driven 3D descent (recreation of the
+ * drop.peachworlds.com mechanics with procedural assets). Text beats are
+ * placeholders drawn from the positioning pillars; to be merged later.
+ */
+import { profile } from '../../data/profile';
+import { buildMailto } from '../../lib/hire';
+const [p1, p2, p3] = profile.pillars;
+const mailto = buildMailto();
+---
+
+<section class="drop ink" id="top" data-drop aria-label="Introduction">
+  <div class="drop__sticky">
+    <canvas class="drop__canvas" aria-hidden="true"></canvas>
+    <div class="drop__poster" aria-hidden="true"></div>
+
+    <div class="drop__loader" data-drop-loader aria-hidden="true">
+      <p class="drop__loader-text">3D is just around the corner…</p>
+      <p class="drop__loader-pct mono" data-drop-progress>0%</p>
+    </div>
+
+    <!-- Beat 0: opening -->
+    <div class="drop__beat drop__beat--bl drop__beat--wide" data-beat="0-0.14">
+      <p class="mono drop__kicker"><span class="live" aria-hidden="true">●</span> {profile.name} · {profile.positioning}</p>
+      <h1 class="drop__title drop__title--hero">I direct <span class="hl">80 engineers</span><br />and ship with <em>agents.</em></h1>
+      <p class="drop__lede">A second-line engineering leader with a decade across healthcare, satellite ground infrastructure, EdTech and FinTech. Asset platforms integrated into <em>Saudi Arabia’s National Health Command Center</em>, the operations-dashboard team at <em>Eutelsat</em>, and an <em>AI-orchestrated delivery system</em> that compresses roadmaps from a year to months.</p>
+    </div>
+    <div class="drop__beat drop__beat--br" data-beat="0-0.14">
+      <p class="mono drop__hint">Scroll to go under <span class="drop__arrow">↓</span></p>
+    </div>
+
+    <!-- Beat 1 -->
+    <div class="drop__beat drop__beat--tl" data-beat="0.16-0.38">
+      <p class="drop__h"><em>{p1.title}.</em></p>
+      <p class="drop__p">{p1.body}</p>
+    </div>
+
+    <!-- Beat 2 -->
+    <div class="drop__beat drop__beat--br" data-beat="0.4-0.62">
+      <p class="drop__h"><em>{p2.title}.</em></p>
+      <p class="drop__p">{p2.body}</p>
+    </div>
+
+    <!-- Beat 3 -->
+    <div class="drop__beat drop__beat--ml" data-beat="0.62-0.84">
+      <p class="drop__h"><em>{p3.title}.</em></p>
+      <p class="drop__p">{p3.body}</p>
+    </div>
+
+    <!-- Beat 4: closing -->
+    <div class="drop__beat drop__beat--tc" data-beat="0.86-1">
+      <p class="drop__title drop__title--center"><em>A career</em> is more<br />than a <em>flat résumé.</em></p>
+    </div>
+    <div class="drop__beat drop__beat--bl drop__beat--wide" data-beat="0.86-1">
+      <div class="drop__ctas">
+        <a href="#journey" class="btn drop__btn">Read the journey <span class="arrow">↓</span></a>
+        <a href={mailto} class="btn drop__btn">Hire me <span class="arrow">→</span></a>
+        <a href="/resume.json" class="link-arrow drop__link">resume.json <span class="arrow">↗</span></a>
+      </div>
+      <dl class="drop__facts mono">
+        <div><dt>Base</dt><dd>{profile.base} · remote US / EU / Gulf</dd></div>
+        <div><dt>Now</dt><dd>{profile.currentRole}</dd></div>
+        <div><dt>Stacks</dt><dd>Laravel · Node.js / TypeScript</dd></div>
+        <div><dt>Since</dt><dd>{profile.yearsSince}</dd></div>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<style>
+  .drop {
+    position: relative;
+    height: 600vh;
+    background: #000;
+    color: #f7f7f7;
+    --fg: #f7f7f7;
+    --line: rgba(247, 247, 247, 0.2);
+  }
+  .drop__sticky {
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    height: 100svh;
+    overflow: hidden;
+  }
+  .drop__canvas {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    transition: opacity 1.2s var(--ease-out);
+  }
+  .drop.is-live .drop__canvas {
+    opacity: 1;
+  }
+  .drop__poster {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 50% 60%, rgba(120, 80, 255, 0.25), transparent 45%),
+      radial-gradient(ellipse at 20% 40%, rgba(60, 60, 60, 0.6), transparent 50%),
+      radial-gradient(ellipse at 85% 50%, rgba(60, 60, 60, 0.6), transparent 50%),
+      #000;
+    transition: opacity 1.2s var(--ease-out);
+  }
+  .drop.is-live .drop__poster {
+    opacity: 0;
+  }
+  .drop__loader {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-content: center;
+    gap: var(--space-s);
+    text-align: center;
+    background: #000;
+    transition: opacity 0.8s var(--ease-out), visibility 0.8s;
+    z-index: 3;
+  }
+  .drop__loader.is-done {
+    opacity: 0;
+    visibility: hidden;
+  }
+  .drop__loader-text {
+    font-size: var(--step-1);
+  }
+  .drop__loader-pct {
+    color: #f7f7f7;
+    letter-spacing: 0.2em;
+  }
+  .drop--static .drop__loader {
+    display: none;
+  }
+
+  .drop__beat {
+    position: absolute;
+    max-width: 30rem;
+    padding: var(--space-l);
+    opacity: 0;
+    transform: translateY(var(--beat-y, 0px));
+    will-change: opacity, transform;
+    z-index: 2;
+  }
+  .drop__beat--bl {
+    left: var(--gutter);
+    bottom: var(--space-xl);
+  }
+  .drop__beat--br {
+    right: var(--gutter);
+    bottom: var(--space-xl);
+    text-align: right;
+    max-width: 34rem;
+  }
+  .drop__beat--tl {
+    left: calc(var(--gutter) + 2vw);
+    top: var(--space-2xl);
+  }
+  .drop__beat--ml {
+    left: calc(var(--gutter) + 2vw);
+    top: 50%;
+    transform: translateY(calc(-50% + var(--beat-y, 0px)));
+  }
+  .drop__beat--tc {
+    left: 50%;
+    top: var(--space-xl);
+    transform: translate(-50%, var(--beat-y, 0px));
+    text-align: center;
+    max-width: 52rem;
+    width: min(52rem, calc(100vw - 2 * var(--gutter)));
+    pointer-events: auto;
+  }
+  .drop__title {
+    font-family: var(--font-display), sans-serif;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    font-size: var(--step-4);
+    line-height: 0.92;
+    letter-spacing: -0.02em;
+    text-wrap: balance;
+  }
+  .drop__title em {
+    font-style: italic;
+  }
+  .drop__title--hero {
+    font-size: clamp(2.4rem, 0.8rem + 5vw, 5.2rem);
+    line-height: 0.88;
+    margin: 0;
+    max-width: 13ch;
+  }
+  .drop__title--hero .hl {
+    white-space: nowrap;
+  }
+  @media (min-width: 1100px) {
+    .drop__beat--bl,
+    .drop__beat--tl,
+    .drop__beat--ml {
+      left: calc(var(--gutter) + 6.5rem);
+    }
+  }
+  .drop__title--hero .hl {
+    background: var(--yellow);
+    color: var(--ink);
+    padding: 0 0.06em;
+    font-style: normal;
+  }
+  .drop__beat--wide {
+    max-width: 46rem;
+  }
+  .drop__kicker {
+    color: #f7f7f7;
+    letter-spacing: 0.12em;
+    margin-bottom: var(--space-s);
+    display: flex;
+    gap: 0.6em;
+    align-items: center;
+  }
+  .drop__kicker .live {
+    color: var(--yellow);
+  }
+  .drop__lede {
+    margin-top: var(--space-m);
+    font-size: var(--step-0);
+    line-height: 1.5;
+    max-width: 58ch;
+    color: #f7f7f7;
+  }
+  .drop__lede em {
+    font-style: italic;
+  }
+  .drop__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: center;
+  }
+  .drop__btn {
+    color: #f7f7f7;
+    border-color: #f7f7f7;
+  }
+  .drop__btn:hover {
+    background: #f7f7f7;
+    color: var(--ink);
+  }
+  .drop__link {
+    color: #f7f7f7;
+    text-decoration-color: #f7f7f7;
+  }
+  .drop__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-s) var(--space-l);
+    margin: var(--space-l) 0 0;
+    padding-top: var(--space-m);
+    border-top: 1px solid rgba(247, 247, 247, 0.25);
+    text-align: left;
+    max-width: 40rem;
+    color: #f7f7f7;
+    letter-spacing: 0.06em;
+  }
+  .drop__facts dt {
+    opacity: 0.6;
+    font-size: var(--step--2);
+  }
+  .drop__facts dd {
+    margin: 0.2em 0 0;
+    font-size: var(--step--1);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+  .drop__h {
+    font-family: var(--font-display), sans-serif;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    font-size: var(--step-3);
+    line-height: 0.95;
+    margin-bottom: var(--space-s);
+  }
+  .drop__p {
+    font-size: var(--step-0);
+    line-height: 1.5;
+    color: #f7f7f7;
+  }
+  .drop__hint {
+    color: #f7f7f7;
+    letter-spacing: 0.14em;
+  }
+  .drop__arrow {
+    display: inline-block;
+    animation: drop-bounce 1.4s ease-in-out infinite;
+  }
+  @keyframes drop-bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(6px); }
+  }
+  a.drop__hint:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+  }
+
+  /* Static tier / no WebGL: normal flow, everything readable */
+  .drop--static {
+    height: auto;
+  }
+  .drop--static .drop__sticky {
+    position: relative;
+    height: auto;
+    display: grid;
+    gap: var(--space-2xl);
+    padding: var(--section-pad) var(--gutter);
+  }
+  .drop--static .drop__canvas {
+    display: none;
+  }
+  .drop--static .drop__beat {
+    position: static;
+    opacity: 1 !important;
+    transform: none !important;
+    max-width: 60ch;
+    padding: 0;
+    text-align: left;
+  }
+
+  @media (max-width: 700px) {
+    .drop__beat {
+      max-width: calc(100vw - 2 * var(--gutter));
+      padding: var(--space-m);
+    }
+    .drop__beat--br {
+      max-width: calc(100vw - 2 * var(--gutter));
+    }
+    .drop__beat--ml {
+      top: auto;
+      bottom: var(--space-2xl);
+      transform: none;
+    }
+  }
+</style>
+
+<script>
+  import { mountDrop } from '../../lib/gl/drop';
+  mountDrop();
+</script>

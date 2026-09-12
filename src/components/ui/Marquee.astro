@@ -1,0 +1,17 @@
+---
+import { profile } from '../../data/profile';
+const items = profile.marquee;
+---
+
+<div class="marquee" aria-hidden="true">
+  <div class="marquee__track">
+    {[0, 1].map(() =>
+      items.map((t) => (
+        <span class="marquee__item">
+          <span>{t}</span>
+          <span class="sep">✦</span>
+        </span>
+      )),
+    )}
+  </div>
+</div>

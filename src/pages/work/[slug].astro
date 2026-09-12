@@ -1,0 +1,23 @@
+---
+import { getCollection, render } from 'astro:content';
+import CaseStudy from '../../layouts/CaseStudy.astro';
+import { caseStudies, getCaseStudy } from '../../data/caseStudies';
+
+export async function getStaticPaths() {
+  const entries = await getCollection('work');
+  const bySlug = new Map(entries.map((e) => [e.data.slug, e]));
+  return caseStudies.map((cs) => {
+    const entry = bySlug.get(cs.slug);
+    if (!entry) throw new Error(`Missing src/content/work/*.mdx with slug "${cs.slug}"`);
+    return { params: { slug: cs.slug }, props: { entry } };
+  });
+}
+
+const { entry } = Astro.props;
+const cs = getCaseStudy(Astro.params.slug!)!;
+const { Content } = await render(entry);
+---
+
+<CaseStudy cs={cs}>
+  <Content />
+</CaseStudy>

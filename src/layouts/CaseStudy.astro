@@ -1,0 +1,230 @@
+---
+import Base from './Base.astro';
+import Stakes from '../components/ui/Stakes.astro';
+import SourceList from '../components/ui/SourceList.astro';
+import GlHost from '../components/gl/GlHost.astro';
+import { caseStudies } from '../data/caseStudies';
+import { places } from '../data/places';
+import { caseStudyJsonLd } from '../lib/seo';
+import type { CaseStudy } from '../data/types';
+
+interface Props {
+  cs: CaseStudy;
+}
+const { cs } = Astro.props;
+const sorted = [...caseStudies].sort((a, b) => a.order - b.order);
+const idx = sorted.findIndex((c) => c.slug === cs.slug);
+const prev = sorted[(idx - 1 + sorted.length) % sorted.length];
+const next = sorted[(idx + 1) % sorted.length];
+const url = new URL(Astro.url.pathname, Astro.site).toString();
+const place = places[cs.placeIds[0]];
+const titleHtml = cs.title.replace(cs.accentWord, `<span class="accent">${cs.accentWord}</span>`);
+---
+
+<Base title={cs.title} description={cs.summary} ogType="article" jsonLd={caseStudyJsonLd(cs, url)}>
+  <main class="cs">
+    <header class="cs__hero">
+      <div class="container cs__hero-grid">
+        <div class="cs__hero-copy">
+          <p class="eyebrow"><a href="/work/">Case study</a> <span class="num">0{cs.order}</span> / {cs.domain}</p>
+          <h1 class="display display-3 cs__title" data-reveal="lines" set:html={titleHtml} />
+          <p class="lede" data-reveal="fade">{cs.summary}</p>
+          <dl class="cs__facts" data-reveal="fade">
+            <div><dt class="mono-sm">Client</dt><dd>{cs.client}</dd></div>
+            <div><dt class="mono-sm">Program</dt><dd>{cs.program}</dd></div>
+            <div><dt class="mono-sm">Period</dt><dd>{cs.period}</dd></div>
+            <div><dt class="mono-sm">Employer</dt><dd>{cs.employer}</dd></div>
+            <div><dt class="mono-sm">Role</dt><dd>{cs.role}</dd></div>
+            <div><dt class="mono-sm">Team</dt><dd>{cs.teamSize}</dd></div>
+            <div><dt class="mono-sm">Where</dt><dd>{place.name}, {place.country}</dd></div>
+          </dl>
+        </div>
+        <div class="cs__hero-visual">
+          <GlHost scene={cs.scene} props={{ mode: 'case', place: cs.placeIds[0] }} aspect="1 / 1" />
+          <p class="mono-sm cs__client-meta">{cs.clientMeta}</p>
+        </div>
+      </div>
+    </header>
+
+    <section class="section--tight section--line">
+      <div class="container cs__numbers">
+        {cs.numbers.map((n) => (
+          <div class="cs__num" data-reveal="fade">
+            <span class="display display-3 num">{n.value}</span>
+            <span class="muted">{n.label}</span>
+          </div>
+        ))}
+      </div>
+    </section>
+
+    <section class="section section--line">
+      <div class="container cs__body">
+        <div class="cs__prose prose">
+          <slot />
+        </div>
+        <aside class="cs__side">
+          <Stakes title={cs.stakes.title} body={cs.stakes.body} />
+          <div class="cs__block">
+            <p class="eyebrow">What shipped</p>
+            <ul class="cs__outcomes">
+              {cs.outcomes.map((o) => <li>{o}</li>)}
+            </ul>
+          </div>
+          <div class="cs__block">
+            <p class="eyebrow">Stack</p>
+            <ul class="cs__tags">
+              {cs.stack.map((s) => <li class="tag">{s}</li>)}
+            </ul>
+          </div>
+          <div class="cs__block">
+            <p class="eyebrow">Links</p>
+            <ul class="cs__links">
+              {cs.links.map((l) => (
+                <li><a class="link-arrow" href={l.href} target="_blank" rel="noopener">{l.label} <span class="arrow">↗</span></a></li>
+              ))}
+            </ul>
+          </div>
+          <SourceList links={cs.sources} />
+        </aside>
+      </div>
+    </section>
+
+    <nav class="section--tight section--line cs__nav" aria-label="Other case studies">
+      <div class="container cs__nav-grid">
+        <a href={`/work/${prev.slug}/`} class="cs__nav-link">
+          <span class="mono-sm">← Previous</span>
+          <span class="display display-5">{prev.title}</span>
+        </a>
+        <a href={`/work/${next.slug}/`} class="cs__nav-link cs__nav-link--next">
+          <span class="mono-sm">Next →</span>
+          <span class="display display-5">{next.title}</span>
+        </a>
+      </div>
+    </nav>
+  </main>
+</Base>
+
+<style>
+  .cs__hero {
+    padding-block: clamp(3rem, 7vw, 7rem) var(--section-pad);
+  }
+  .cs__hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+  @media (max-width: 980px) {
+    .cs__hero-grid {
+      grid-template-columns: 1fr;
+    }
+    .cs__hero-visual {
+      max-width: 380px;
+      margin-inline: auto;
+    }
+  }
+  .cs__hero-copy {
+    display: grid;
+    gap: var(--space-l);
+  }
+  .cs__title {
+    max-width: 18ch;
+  }
+  .cs__facts {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-m);
+    margin: 0;
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--line);
+  }
+  .cs__facts dd {
+    margin: 0.3em 0 0;
+    font-size: var(--step--1);
+  }
+  .cs__client-meta {
+    text-align: center;
+    margin-top: var(--space-s);
+  }
+  .cs__numbers {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: var(--space-l);
+    padding-block: var(--space-xl);
+  }
+  .cs__num {
+    display: grid;
+    gap: var(--space-xs);
+  }
+  .cs__num .muted {
+    font-size: var(--step--1);
+  }
+  .cs__body {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .cs__body {
+      grid-template-columns: 1fr;
+    }
+  }
+  .cs__side {
+    display: grid;
+    gap: var(--space-xl);
+    position: sticky;
+    top: 12vh;
+  }
+  .cs__block {
+    display: grid;
+    gap: var(--space-s);
+  }
+  .cs__outcomes {
+    display: grid;
+    gap: var(--space-xs);
+    font-size: var(--step--1);
+    color: var(--fg-muted);
+  }
+  .cs__outcomes li {
+    padding-left: 1.2em;
+    position: relative;
+  }
+  .cs__outcomes li::before {
+    content: '—';
+    position: absolute;
+    left: 0;
+    color: var(--accent-text);
+  }
+  .cs__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+  .cs__links {
+    display: grid;
+    gap: var(--space-xs);
+    justify-items: start;
+  }
+  .cs__nav-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-l);
+    padding-block: var(--space-xl);
+  }
+  @media (max-width: 700px) {
+    .cs__nav-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  .cs__nav-link {
+    display: grid;
+    gap: var(--space-xs);
+  }
+  .cs__nav-link--next {
+    text-align: right;
+  }
+  .cs__nav-link:hover .display {
+    color: var(--accent-text);
+  }
+</style>

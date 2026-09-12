@@ -1,0 +1,97 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import Stakes from '../ui/Stakes.astro';
+import BigNumber from '../ui/BigNumber.astro';
+import GlHost from '../gl/GlHost.astro';
+import { chapters } from '../../data/chapters';
+import { getCaseStudy } from '../../data/caseStudies';
+---
+
+<section class="section section--line chapters" id="chapters">
+  <div class="container">
+    <SectionHeader
+      n="03"
+      label="Four chapters"
+      title="Four chapters,<br />one <em>career.</em>"
+      lede="Every era in full prose, with the numbers, the stakes, and the links. This is the long version on purpose."
+    />
+    <div class="chapters__list">
+      {chapters.map((ch) => (
+        <article class="chapter" id={`chapter-${ch.id}`}>
+          <header class="chapter__head">
+            <p class="eyebrow"><span class="num">{ch.number}</span> / {ch.era} · {ch.place}</p>
+            <h3 class="display display-3 chapter__title" data-reveal="lines">{ch.title}</h3>
+            <p class="mono-sm">{ch.kicker}</p>
+          </header>
+          <div class="chapter__body">
+            <div class="chapter__prose prose">
+              {ch.paragraphs.map((p) => <p data-reveal="fade">{p}</p>)}
+            </div>
+            <aside class="chapter__side">
+              {ch.scene === 'satellites' && <GlHost scene="satellites" aspect="4 / 3" class="chapter__scene" />}
+              <BigNumber value={ch.bigNumber.value} label={ch.bigNumber.label} size="display-3" />
+              <blockquote class="pull-quote" data-reveal="fade">{ch.pullQuote}</blockquote>
+              <Stakes title={ch.stakes.title} body={ch.stakes.body} />
+              <ul class="chapter__links">
+                {ch.caseStudySlugs.map((s) => {
+                  const cs = getCaseStudy(s);
+                  return cs ? (
+                    <li><a class="link-arrow" href={`/work/${cs.slug}/`}>{cs.client} <span class="arrow">↗</span></a></li>
+                  ) : null;
+                })}
+                {ch.links.map((l) => (
+                  <li><a class="link-arrow" href={l.href} target="_blank" rel="noopener">{l.label} <span class="arrow">↗</span></a></li>
+                ))}
+              </ul>
+            </aside>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .chapters__list {
+    display: grid;
+    gap: var(--space-3xl);
+  }
+  .chapter {
+    display: grid;
+    gap: var(--space-xl);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--line);
+  }
+  .chapter__head {
+    display: grid;
+    gap: var(--space-s);
+  }
+  .chapter__title {
+    max-width: 22ch;
+  }
+  .chapter__body {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .chapter__body {
+      grid-template-columns: 1fr;
+    }
+  }
+  .chapter__side {
+    display: grid;
+    gap: var(--space-xl);
+    position: sticky;
+    top: 12vh;
+  }
+  .chapter__scene {
+    margin-bottom: calc(var(--space-xl) * -0.5);
+  }
+  .chapter__links {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+  }
+</style>

@@ -1,0 +1,222 @@
+---
+/**
+ * Left-rail section navigation for the homepage. Pure CSS motion: a scroll-driven
+ * progress line (animation-timeline: scroll()), dots that swell when active,
+ * labels that slide out on hover or when active. JS only toggles `is-active`.
+ */
+const items = [
+  { id: 'top', label: 'Start' },
+  { id: 'journey', label: 'Journey' },
+  { id: 'numbers', label: 'Numbers' },
+  { id: 'chapters', label: 'Chapters' },
+  { id: 'system', label: 'System' },
+  { id: 'evidence', label: 'Evidence' },
+  { id: 'stack', label: 'Stack' },
+  { id: 'work', label: 'Work' },
+  { id: 'impact', label: 'Impact' },
+  { id: 'services', label: 'Services' },
+  { id: 'reading', label: 'Reading' },
+  { id: 'agent-ready', label: 'Agents' },
+  { id: 'faq', label: 'FAQ' },
+];
+---
+
+<nav class="rail" aria-label="Sections" data-section-nav>
+  <div class="rail__track" aria-hidden="true"><div class="rail__progress"></div></div>
+  <ol class="rail__list">
+    {items.map((it, i) => (
+      <li class="rail__item" style={`--i:${i}`}>
+        <a href={`#${it.id}`} class="rail__link" data-target={it.id}>
+          <span class="rail__dot" aria-hidden="true"></span>
+          <span class="rail__label">{it.label}</span>
+        </a>
+      </li>
+    ))}
+  </ol>
+</nav>
+
+<style>
+  .rail {
+    position: fixed;
+    left: clamp(0.75rem, 1.6vw, 1.5rem);
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: var(--z-nav);
+    display: none;
+    padding-left: 14px;
+    animation: rail-in 900ms var(--ease-out) both;
+  }
+  @media (min-width: 1100px) {
+    .rail {
+      display: block;
+    }
+    /* Reserve a lane for the rail so labels never overlap content */
+    :global(body:has([data-section-nav]) main .container),
+    :global(body:has([data-section-nav]) .marquee) {
+      padding-left: calc(var(--gutter) + 6.5rem);
+    }
+  }
+  @keyframes rail-in {
+    from {
+      opacity: 0;
+      transform: translate(-16px, -50%);
+    }
+    to {
+      opacity: 1;
+      transform: translate(0, -50%);
+    }
+  }
+  .rail__track {
+    position: absolute;
+    left: 5px;
+    top: 0.5rem;
+    bottom: 0.5rem;
+    width: 1px;
+    background: var(--line-strong);
+    overflow: hidden;
+  }
+  .rail__progress {
+    width: 100%;
+    height: 100%;
+    background: var(--ink);
+    transform-origin: top;
+    transform: scaleY(0);
+  }
+  /* Scroll-driven fill where supported */
+  @supports (animation-timeline: scroll()) {
+    .rail__progress {
+      animation: rail-fill linear both;
+      animation-timeline: scroll(root);
+    }
+  }
+  @keyframes rail-fill {
+    from {
+      transform: scaleY(0);
+    }
+    to {
+      transform: scaleY(1);
+    }
+  }
+  .rail__list {
+    display: grid;
+    gap: 0.9rem;
+  }
+  .rail__item {
+    animation: rail-item 700ms var(--ease-out) both;
+    animation-delay: calc(120ms + var(--i) * 40ms);
+  }
+  @keyframes rail-item {
+    from {
+      opacity: 0;
+      transform: translateX(-8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .rail__link {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.7rem;
+    height: 14px;
+    color: var(--fg);
+  }
+  .rail__dot {
+    position: absolute;
+    left: -14px;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink);
+    background: var(--paper);
+    transition: transform 400ms var(--ease-out), background 300ms var(--ease-out);
+    transform: translateX(-4px) scale(0.7);
+  }
+  .rail__dot::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    border: 1px solid var(--ink);
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 400ms var(--ease-out), transform 500ms var(--ease-out);
+  }
+  .rail__label {
+    font-family: var(--font-mono), monospace;
+    font-size: var(--step--2);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    opacity: 0.55;
+    transition: opacity 300ms var(--ease-out), transform 400ms var(--ease-out);
+    white-space: nowrap;
+  }
+  .rail__link:hover .rail__label,
+  .rail__link.is-active .rail__label {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+  .rail__link.is-active .rail__label {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.2em;
+  }
+  .rail__link:hover .rail__dot,
+  .rail__link.is-active .rail__dot {
+    background: var(--ink);
+    transform: translateX(-4px) scale(1);
+  }
+  .rail__link.is-active .rail__dot::after {
+    opacity: 1;
+    transform: scale(1);
+    animation: rail-ping 1.8s ease-out infinite;
+  }
+  @keyframes rail-ping {
+    0% {
+      transform: scale(0.6);
+      opacity: 0.9;
+    }
+    100% {
+      transform: scale(1.5);
+      opacity: 0;
+    }
+  }
+  /* Over dark sections, flip the ink */
+  .rail.on-ink {
+    --ink: #f7f7f7;
+    --paper: #022016;
+    --fg: #f7f7f7;
+    --line-strong: rgba(247, 247, 247, 0.35);
+  }
+  html[data-motion-tier='static'] .rail,
+  html[data-motion-tier='static'] .rail__item,
+  html[data-motion-tier='static'] .rail__dot::after {
+    animation: none;
+  }
+</style>
+
+<script>
+  const nav = document.querySelector<HTMLElement>('[data-section-nav]');
+  if (nav) {
+    const links = Array.from(nav.querySelectorAll<HTMLAnchorElement>('.rail__link'));
+    const targets = links.map((l) => document.getElementById(l.dataset.target!)).filter(Boolean) as HTMLElement[];
+    const setActive = (id: string) => links.forEach((l) => l.classList.toggle('is-active', l.dataset.target === id));
+    const pick = () => {
+      const mid = window.innerHeight * 0.45;
+      let best: HTMLElement | null = null;
+      for (const t of targets) {
+        const r = t.getBoundingClientRect();
+        if (r.top <= mid) best = t;
+      }
+      if (best) {
+        setActive(best.id);
+        // flip contrast when the active section is a dark one
+        nav.classList.toggle('on-ink', best.classList.contains('ink') || best.classList.contains('drop'));
+      }
+    };
+    window.addEventListener('scroll', pick, { passive: true });
+    pick();
+  }
+</script>

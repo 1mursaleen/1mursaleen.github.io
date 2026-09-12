@@ -1,0 +1,152 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import GlHost from '../gl/GlHost.astro';
+import { timelineChronological } from '../../data/timeline';
+import { profile } from '../../data/profile';
+import { places } from '../../data/places';
+const maxTeam = 80;
+---
+
+<section class="section section--line journey" id="journey">
+  <div class="container">
+    <SectionHeader
+      n="01"
+      label="Journey"
+      title="Dubai → Riyadh → orbit → <span class='accent'>the AI frontier.</span>"
+      lede="One career narrative, four eras, increasing scope. No gaps: Ascend ended December 2022, Tanbits began January 2023. Eutelsat was a contract engagement alongside Tanbits."
+    />
+    <div class="journey__layout">
+      <ol class="journey__eras">
+        {timelineChronological.map((era, i) => (
+          <li class="journey__era" data-era={era.id} data-place={era.placeId} data-reveal="fade">
+            <div class="journey__meta">
+              <span class="mono num">{era.period}</span>
+              <span class="mono-sm">{places[era.placeId].name}, {places[era.placeId].country}</span>
+              {era.contract && <span class="tag">Contract</span>}
+            </div>
+            <h3 class="display display-4 journey__role">{era.role}</h3>
+            <p class="journey__company">
+              <a href={era.url} target="_blank" rel="noopener">{era.company}</a>
+              <span class="muted"> · {era.location}</span>
+            </p>
+            {era.roleArc && <p class="mono-sm journey__arc">{era.roleArc}</p>}
+            <p class="journey__summary">{era.summary}</p>
+            <div class="journey__scale" aria-label={`Leadership scale: ${era.leadershipScale}`}>
+              <div class="journey__bar">
+                <span class="journey__bar-fill" style={`--w:${(era.teamSize / maxTeam) * 100}%`}></span>
+              </div>
+              <span class="mono-sm"><span class="num">{era.teamSize}</span> · {era.leadershipScale}</span>
+            </div>
+            {era.caseStudySlugs.length > 0 && (
+              <ul class="journey__links">
+                {era.caseStudySlugs.map((s) => (
+                  <li><a class="link-arrow" href={`/work/${s}/`}>{s.replace(/-/g, ' ')} <span class="arrow">↗</span></a></li>
+                ))}
+              </ul>
+            )}
+          </li>
+        ))}
+        <li class="journey__era journey__era--edu" data-reveal="fade">
+          <div class="journey__meta">
+            <span class="mono num">{profile.education.period}</span>
+            <span class="mono-sm">Islamabad, Pakistan</span>
+          </div>
+          <h3 class="display display-4 journey__role">{profile.education.degree}</h3>
+          <p class="journey__company"><a href={profile.education.url} target="_blank" rel="noopener">{profile.education.school}</a></p>
+          <p class="journey__summary">{profile.education.context}</p>
+          <p class="journey__summary">Majors: {profile.education.majors.join(', ')}.</p>
+        </li>
+      </ol>
+      <div class="journey__sticky">
+        <GlHost scene="globe" props={{ mode: 'journey' }} aspect="1 / 1" />
+        <p class="mono-sm journey__place" data-journey-place>Islamabad</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .journey__layout {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .journey__layout {
+      grid-template-columns: 1fr;
+    }
+    .journey__sticky {
+      display: none;
+    }
+  }
+  .journey__sticky {
+    position: sticky;
+    top: 12vh;
+  }
+  .journey__place {
+    text-align: center;
+    margin-top: var(--space-s);
+  }
+  .journey__eras {
+    display: grid;
+    gap: var(--space-2xl);
+  }
+  .journey__era {
+    display: grid;
+    gap: var(--space-s);
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--line);
+  }
+  .journey__meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: center;
+  }
+  .journey__role {
+    margin-top: var(--space-xs);
+  }
+  .journey__company {
+    font-size: var(--step-1);
+  }
+  .journey__arc {
+    color: var(--fg);
+  }
+  .journey__summary {
+    color: var(--fg);
+    max-width: 66ch;
+    text-wrap: pretty;
+  }
+  .journey__scale {
+    display: grid;
+    gap: var(--space-2xs);
+    margin-top: var(--space-xs);
+  }
+  .journey__bar {
+    height: 6px;
+    background: var(--bg-2);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .journey__bar-fill {
+    display: block;
+    height: 100%;
+    width: var(--w);
+    background: var(--ink-2);
+    box-shadow: none;
+    transform-origin: left;
+  }
+  .journey__links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    margin-top: var(--space-xs);
+    text-transform: capitalize;
+  }
+  .journey__majors {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+</style>

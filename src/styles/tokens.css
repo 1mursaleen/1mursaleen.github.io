@@ -1,0 +1,95 @@
+:root {
+  color-scheme: light;
+
+  /* Color: off-white ground, forest-green ink, acid-yellow highlighter, warm peach surface */
+  --paper: #f7f7f7;
+  --ink: #022016;
+  --ink-2: #083d2a;
+  --yellow: #f6e016;
+  --peach: #eed6c8;
+
+  --bg-0: var(--paper);
+  --bg-1: #efefeb;
+  --bg-2: #e6e6e0;
+  --bg-3: #dcdcd4;
+  --line: #d3d3cb;
+  --line-strong: #b4b4aa;
+  --fg: var(--ink);
+  --fg-muted: #2b423a;
+  --fg-dim: #46594f;
+  --w-bold: 800;
+  --w-regular: 400;
+  --accent: var(--yellow);
+  --accent-ink: var(--ink);
+  --accent-text: var(--ink-2);
+  --accent-soft: rgba(246, 224, 22, 0.35);
+  --accent-glow: rgba(246, 224, 22, 0.7);
+  --surface-warm: var(--peach);
+
+  /* WebGL palette (read at runtime by the renderer) */
+  --gl-bg: var(--paper);
+  --gl-dot: var(--ink);
+  --gl-line: #b4b4aa;
+  --gl-muted: #6f857b;
+  --gl-arc: var(--ink-2);
+  --gl-hot: var(--yellow);
+  --gl-earth: var(--ink);
+
+  /* Fluid type scale, 360px -> 1440px */
+  --step--2: clamp(0.69rem, 0.66rem + 0.15vw, 0.79rem);
+  --step--1: clamp(0.83rem, 0.78rem + 0.24vw, 1rem);
+  --step-0: clamp(1rem, 0.93rem + 0.33vw, 1.25rem);
+  --step-1: clamp(1.2rem, 1.08rem + 0.55vw, 1.56rem);
+  --step-2: clamp(1.44rem, 1.24rem + 0.9vw, 1.95rem);
+  --step-3: clamp(1.73rem, 1.4rem + 1.5vw, 2.44rem);
+  --step-4: clamp(2.07rem, 1.5rem + 2.6vw, 3.05rem);
+  --step-5: clamp(2.5rem, 1.6rem + 4.2vw, 4.8rem);
+  --step-6: clamp(3.2rem, 1.2rem + 9vw, 8rem);
+  --step-7: clamp(4rem, 0.5rem + 14vw, 13rem);
+
+  /* Space */
+  --space-3xs: clamp(0.25rem, 0.23rem + 0.1vw, 0.31rem);
+  --space-2xs: clamp(0.5rem, 0.46rem + 0.2vw, 0.63rem);
+  --space-xs: clamp(0.75rem, 0.69rem + 0.3vw, 0.94rem);
+  --space-s: clamp(1rem, 0.93rem + 0.33vw, 1.25rem);
+  --space-m: clamp(1.5rem, 1.39rem + 0.5vw, 1.88rem);
+  --space-l: clamp(2rem, 1.85rem + 0.65vw, 2.5rem);
+  --space-xl: clamp(3rem, 2.78rem + 1vw, 3.75rem);
+  --space-2xl: clamp(4rem, 3.7rem + 1.3vw, 5rem);
+  --space-3xl: clamp(6rem, 5.56rem + 2vw, 7.5rem);
+  --section-pad: clamp(4rem, 8vw, 10rem);
+
+  /* Layout */
+  --container: 1440px;
+  --gutter: clamp(1rem, 4vw, 4rem);
+
+  /* Motion */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --dur-1: 300ms;
+  --dur-2: 700ms;
+
+  /* Layers */
+  --z-canvas: 0;
+  --z-content: 1;
+  --z-marquee: 40;
+  --z-nav: 50;
+}
+
+/* Inverted, deep-green sections */
+.ink {
+  --bg-0: var(--ink);
+  --bg-1: #083d2a;
+  --bg-2: #0c4a34;
+  --bg-3: #11563e;
+  --line: rgba(247, 247, 247, 0.16);
+  --line-strong: rgba(247, 247, 247, 0.32);
+  --fg: var(--paper);
+  --fg-muted: #d5e0da;
+  --fg-dim: #b7c6be;
+  --accent-text: var(--yellow);
+  --surface-warm: #0c4a34;
+  background: var(--bg-0);
+  color: var(--fg);
+  color-scheme: dark;
+}

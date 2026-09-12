@@ -1,0 +1,33 @@
+---
+interface Props {
+  n: string;
+  label: string;
+  title: string;
+  id?: string;
+  lede?: string;
+  size?: 'display-2' | 'display-3' | 'display-4';
+}
+const { n, label, title, id, lede, size = 'display-3' } = Astro.props;
+---
+
+<header class="section-head" id={id}>
+  <p class="eyebrow section-head__label"><span class="num">{n}</span> / {label}</p>
+  <h2 class:list={['display', size]} data-reveal="lines" set:html={title} />
+  {lede && <p class="lede section-head__lede" data-reveal="fade">{lede}</p>}
+  <slot />
+</header>
+
+<style>
+  .section-head {
+    margin-bottom: var(--space-2xl);
+    display: grid;
+    gap: var(--space-m);
+  }
+  .section-head__label {
+    display: flex;
+    gap: 0.6em;
+  }
+  .section-head__lede {
+    color: var(--fg-muted);
+  }
+</style>

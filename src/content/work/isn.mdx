@@ -1,0 +1,29 @@
+---
+slug: isn
+---
+
+## The client
+
+The Indigenous Sentinels Network is a Tribally owned and operated environmental monitoring platform of the Aleut Community of St. Paul Island, in the Bering Sea. Its roots go back to the early-2000s BeringWatch and Island Sentinel programs; the Ecosystem Conservation Office formed in 1998, the database went online in 2008, and the approach has been refined over sixteen to twenty years.
+
+Today ISN supports 20+ projects with Tribal and rural communities across Alaska and is expanding toward Canada: Akutan, False Pass, King Cove, St. George, St. Paul, Unalaska, with partnerships including the Tanana Chiefs Conference. Its apps include Skipper Science. It holds a formal co-management agreement with NOAA Fisheries under the Marine Mammal Protection Act for northern fur seals and Steller sea lions. It was featured in the NOAA Arctic Report Card 2025 and as a U.S. Climate Resilience Toolkit case study. Data sovereignty follows the CARE Principles: communities own and control their data.
+
+The correct framing is **Tribally-governed, federally-partnered**. Not “US government backed.”
+
+## The scope
+
+Tanbits built the entire multi-tenant central research platform and the offline-first mobile apps. Around 40 engineers across platform and app teams. I was the tech lead and engineering manager over all of them, seated with the client, product owners and PMs.
+
+The apps enable real-time research data recording in remote areas, the Bering Sea being the obvious example, that sync when scientists and community observers return from the field.
+
+## The hard problems
+
+**Offline-first is the default, not the edge case.** Connectivity is the exception. That inverts the usual architecture: conflict-safe capture, durable local storage and trustworthy sync are the core, and the server is the thing that is occasionally reachable.
+
+**Multi-tenancy is a governance requirement.** Each community owns and controls its data. Tenant boundaries are not an infrastructure convenience; they encode data sovereignty. Getting them wrong is not a bug, it is a breach of the platform’s purpose.
+
+**The users are field observers.** Non-technical community members recording observations in harsh conditions. Ruggedness and simplicity are requirements, not polish.
+
+## Why I include it
+
+It is the largest team I have directed on a single account, and it is mission work: climate monitoring, co-managed with a federal agency, on Indigenous terms. It sits on the same thread as SDG-aligned EdTech in Dubai, pandemic-era national health infrastructure in Riyadh, and volunteer platforms for disaster relief and children’s cardiac care in Pakistan.

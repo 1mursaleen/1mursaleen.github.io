@@ -1,0 +1,25 @@
+---
+slug: eutelsat-ops-dashboard
+---
+
+## The operator
+
+Eutelsat Group became the world’s first integrated GEO-LEO satellite operator when its all-share merger with OneWeb completed on 28 September 2023. The fleet, per the May 2025 investor deck: 341 geostationary satellites carrying roughly 1,200 transponders, some 6,500 TV channels and 690+ Gbps of high-throughput capacity, plus the OneWeb low-Earth-orbit constellation of 650+ satellites at about 1,200 km. Revenue around €1.24B for FY2025/26. The French and UK governments are shareholders. In 2025 the group raised about €1.5B and ordered 340 more OneWeb satellites from Airbus. It is positioned as Europe’s Starlink, notably in Ukraine.
+
+Underneath all of that is the ground segment: 40+ ground station sites, the Satellite Network Portals, and the device estate that makes the constellation usable.
+
+## The engagement
+
+This was a contract engagement in 2024 and 2025, overlapping my Tech Lead role at Tanbits. I started as a backend-to-IoT engineer. I grew into leading the web dashboard backend team of six senior engineers.
+
+We built the complex internal, client-facing operations dashboard: the web interface through which the entire ground and device technology estate is monitored and controlled. That meant integrating all controls of the devices involved, end-to-end, from backend services down to IoT-connected ground hardware, and exposing real-time telemetry, alarms, service provisioning, traffic shaping and capacity management to network operators.
+
+## Working inside a satellite organization
+
+A dashboard team does not work alone in a company like this. I talked with everyone across the much larger satellite and devices engineering organization to align APIs, protocols and operational semantics. The vocabulary of the domain became daily language: IP encapsulation into MPEG-TS streams, DVB-based transport, hybrid satellite and terrestrial distribution, multicast delivery, datacasting and media distribution pipelines. Some of the collaboration reached into C-based low-level work, protocol handling, stream processing, packet buffering and state-driven control logic.
+
+The constraints were operator-grade: real-time performance, high availability, broadcast-grade operational standards. I also supported a critical engineering transition by transferring system knowledge to new engineers.
+
+## Why this matters
+
+In January 2025 a two-day OneWeb outage was caused by a ground-segment software leap-year bug. That is the clearest possible proof of why operator-grade ground monitoring and control software matters: the satellites were fine, the ground software was not, and the service went dark. Very few full-stack engineers have worked at that standard on a live constellation’s control surface. The contract ended in 2025.

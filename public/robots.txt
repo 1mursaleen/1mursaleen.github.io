@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+
+# Machine-readable profile for AI agents
+# /llms.txt  /llms-full.txt  /AGENTS.md  /resume.json  /openapi.json  /work.json  /.well-known/agent-card.json
+Sitemap: https://1mursaleen.github.io/sitemap-index.xml

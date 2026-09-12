@@ -1,0 +1,85 @@
+---
+title: 'Inside the AI-orchestrated delivery system'
+description: 'Not “uses AI tools.” The operating model: PRD-first specs, an orchestrator spawning builder, reviewer and tester sessions, file-based durable state, and CI-enforced AI test suites. The files, the loop, the gates.'
+pubDate: 2026-09-01
+tags: ['ai delivery', 'engineering leadership', 'compound engineering']
+draft: false
+---
+
+Most engineers who say they use AI mean they have an assistant in the editor. That is a tool. What I run at Tanbits is an operating model, and the difference shows up in the numbers: a roughly one-year loan-origination roadmap for Mortgage Automator shipped in a few months, and a regulated finance automation programme for Primexis and Groupe Aplitec ran through every phase of the lifecycle agentically. This post is the write-up of how it actually works. Files, loop, rubric.
+
+## 1. The PRD is the contract
+
+Every build starts with a product requirements document. It is AI-drafted and human-reviewed, and it is detailed: user stories, acceptance criteria, non-goals, data contracts, edge cases, and the test scenarios that will prove the work. The PRD is the contract between me, the client and the agents.
+
+The reason is not ceremony. Agents fail in the gap between what you meant and what you wrote. A precise PRD closes that gap before a single builder is spawned, and it gives the reviewer and tester sessions something objective to validate against.
+
+In practice the PRD lives at `docs/prd/<feature>.md` in the repository, versioned with the code.
+
+## 2. The orchestrator pattern
+
+One coordinating session owns the roadmap. It does not write features. It reads the PRD, breaks it into parallelizable units of work, and spawns sub-sessions with distinct roles:
+
+- **Builders** implement one unit each, in parallel, on their own branches.
+- **Reviewers** read a builder’s diff against the PRD and the codebase conventions, and either approve or send it back with specific findings.
+- **Testers** write and run the unit and Playwright end-to-end suites for the unit, from the PRD’s acceptance criteria rather than from the builder’s code.
+
+The orchestrator merges what passes, updates the roadmap, and spawns the next wave. It is the only session with a long horizon.
+
+The pattern matters because it separates concerns the same way a good engineering org does. A builder marking its own homework is exactly the failure mode the METR study measured. A reviewer with a rubric and a tester working from the spec are the countermeasures.
+
+## 3. File-based durable state
+
+Model memory is not a system of record. Sessions are disposable; the state is not.
+
+Context, decisions and the roadmap live in versioned files:
+
+- `docs/roadmap.md`: what is done, in flight, blocked, next.
+- `docs/decisions/`: one file per architectural decision, with the reasoning.
+- `docs/prd/`: the specs.
+- `docs/conventions.md`: how this codebase does things, updated whenever a reviewer finds a pattern worth encoding.
+
+Every new session, orchestrator or sub-session, starts by reading the relevant files. Every session ends by writing back what it learned. This is what “compounding engineering” means: institutional knowledge accumulates across weeks of work instead of resetting with each context window. A reviewer’s finding on Tuesday becomes a convention that prevents the same mistake on Thursday.
+
+## 4. Validated output
+
+Velocity without quality drift is the whole point, so the gates are not optional.
+
+AI-written unit tests and Playwright end-to-end tests maintain near-total coverage, and CI enforces it. A pull request that lowers coverage or fails the suite does not merge, regardless of which agent produced it. Tester sessions work from the PRD’s acceptance criteria, which means the tests encode what the feature is supposed to do rather than what the builder happened to write.
+
+This is where the Veracode finding, that 45% of generated code samples carried OWASP Top 10 issues, gets answered. Reviewers carry a security rubric. Testers cover the negative cases. CI blocks the merge.
+
+## 5. Full lifecycle, not just code generation
+
+The pipeline is: **PRDs → AI development → AI Playwright testing → AI CI/CD → UAT → final delivery.**
+
+The CI/CD configuration itself is agent-maintained. UAT scripts are generated from the PRDs. Delivery notes are drafted from the merged PR set. For Primexis and Groupe Aplitec, five engineers ran a regulated finance programme, bookkeeping automation, AML/CFT checks, event-driven data propagation and government API integrations, through every one of those phases agentically. That is the completeness proof.
+
+## 6. Throughput
+
+Scores of merged PRs per week, sustained, across accounts. Not a burst.
+
+## 7. What the studies say, including the inconvenient ones
+
+I do not claim 10x. The evidence is more specific and more useful:
+
+- Peng et al. (2023), GitHub Copilot RCT: 55.8% faster task completion.
+- Cui et al., Microsoft and Accenture field RCTs: +12.9 to 21.8% PRs per week at Microsoft, +7.5 to 8.7% at Accenture.
+- Enterprise longitudinal study (arXiv 2509.19708): 31.8% overall efficiency gain, AI-generated code at ~40% of production by August 2025 with no rise in revert or bugfix rates.
+- Bain 2024/25: 10 to 15% on average, 30%+ only for organizations taking a comprehensive approach.
+- McKinsey, 4,500 developers: ~46% time saved on routine tasks, under 10% on high-complexity work.
+
+And the counterweights:
+
+- METR RCT (arXiv 2507.09089): experienced developers were 19% slower with AI on familiar codebases.
+- Veracode 2025: 45% of GenAI code samples contained OWASP Top 10 vulnerabilities.
+
+Bain’s finding is the thesis in one line. The upper band belongs to organizations that build a system around the tools. The counterweights describe what happens when you do not. PRDs, reviewer agents and CI-enforced test suites exist because of those two studies, not in spite of them.
+
+## The toolchain, last
+
+Claude Code, ChatGPT Codex, Cursor, GitHub Copilot, DevinAI, LangChain, n8n, ZapierAI, Replit, Lovable, DeepWiki. They rotate. The system does not. If you are evaluating whether to hire someone who “uses AI,” ask about their orchestration, their state, their review gates and their coverage enforcement. The tool list is the least interesting answer.
+
+---
+
+*This site is itself built with the system: Astro, Three.js, GSAP and Lenis, from a single data layer that also publishes [`/resume.json`](/resume.json), [`/work.json`](/work.json) and [`/AGENTS.md`](/AGENTS.md) for agents. Hire me from yours.*

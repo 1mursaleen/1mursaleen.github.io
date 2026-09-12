@@ -1,0 +1,43 @@
+---
+/**
+ * A positioned host the shared WebGL renderer draws into (scissor viewport).
+ * Renders a poster fallback so no-JS / static tier still shows something.
+ */
+interface Props {
+  scene: 'globe' | 'satellites' | 'field';
+  props?: Record<string, unknown>;
+  class?: string;
+  aspect?: string;
+  poster?: string;
+}
+const { scene, props = {}, class: cls, aspect = '1 / 1', poster } = Astro.props;
+---
+
+<div
+  class:list={['gl-host', cls]}
+  data-gl={scene}
+  data-gl-props={JSON.stringify(props)}
+  style={`aspect-ratio:${aspect}`}
+  aria-hidden="true"
+>
+  <div class="gl-host__poster" style={poster ? `background-image:url(${poster})` : undefined}></div>
+</div>
+
+<style>
+  .gl-host {
+    position: relative;
+    width: 100%;
+    overflow: visible;
+    pointer-events: none;
+  }
+  .gl-host__poster {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 50% 50%, var(--bg-2), transparent 60%);
+    opacity: 1;
+    transition: opacity 900ms var(--ease-out);
+  }
+  .gl-host.is-live .gl-host__poster {
+    opacity: 0;
+  }
+</style>

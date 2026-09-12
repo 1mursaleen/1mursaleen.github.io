@@ -1,0 +1,52 @@
+---
+interface Props {
+  value: string;
+  label: string;
+  counter?: number | null;
+  prefix?: string;
+  suffix?: string;
+  format?: string;
+  size?: 'display-3' | 'display-4' | 'display-5';
+  source?: string;
+}
+const { value, label, counter, prefix, suffix, format = 'int', size = 'display-4', source } = Astro.props;
+---
+
+<div class="bignum" data-reveal="fade">
+  <div class:list={['display', size, 'num', 'bignum__value']}>
+    {prefix && <span class="bignum__affix">{prefix}</span>}
+    {counter != null ? (
+      <span data-counter={counter} data-counter-format={format}>{value}</span>
+    ) : (
+      <span>{value}</span>
+    )}
+    {suffix && <span class="bignum__affix">{suffix}</span>}
+  </div>
+  <p class="bignum__label">{label}</p>
+  {source && <p class="mono-sm bignum__source">{source}</p>}
+</div>
+
+<style>
+  .bignum {
+    display: grid;
+    gap: var(--space-2xs);
+    align-content: start;
+  }
+  .bignum__value {
+    letter-spacing: -0.04em;
+  }
+  .bignum__affix {
+    font-size: 0.6em;
+    vertical-align: 0.35em;
+  }
+  .bignum__label {
+    color: var(--fg-muted);
+    font-size: var(--step--1);
+    line-height: 1.4;
+    max-width: 26ch;
+    text-wrap: pretty;
+  }
+  .bignum__source {
+    margin-top: var(--space-2xs);
+  }
+</style>

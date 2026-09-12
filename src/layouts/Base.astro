@@ -1,0 +1,96 @@
+---
+import { Font } from 'astro:assets';
+import '../styles/tokens.css';
+import '../styles/base.css';
+import '../styles/typography.css';
+import '../styles/utilities.css';
+import Nav from '../components/ui/Nav.astro';
+import Footer from '../components/ui/Footer.astro';
+import { profile } from '../data/profile';
+import { personJsonLd } from '../lib/seo';
+
+interface Props {
+  title?: string;
+  description?: string;
+  ogType?: string;
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
+  noNav?: boolean;
+}
+
+const {
+  title,
+  description = profile.oneLiner,
+  ogType = 'website',
+  jsonLd,
+} = Astro.props;
+
+const fullTitle = title ? `${title} — ${profile.name}` : `${profile.name} — ${profile.positioning}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ld = jsonLd ?? personJsonLd();
+---
+
+<!doctype html>
+<html lang="en" data-motion-tier="pending">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{fullTitle}</title>
+    <meta name="description" content={description} />
+    <meta name="author" content={profile.name} />
+    <meta name="theme-color" content="#f7f7f7" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+    <link rel="alternate" type="application/json" href="/resume.json" title="Structured resume (JSON Resume)" />
+    <link rel="alternate" type="text/plain" href="/llms.txt" title="Plain-text index for AI agents" />
+    <link rel="alternate" type="text/markdown" href="/AGENTS.md" title="Agent brief" />
+    <link rel="describedby" type="application/openapi+json" href="/openapi.json" />
+
+    <meta property="og:type" content={ogType} />
+    <meta property="og:title" content={fullTitle} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={profile.name} />
+    <meta property="og:image" content={new URL('/og/default.svg', Astro.site)} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={fullTitle} />
+    <meta name="twitter:description" content={description} />
+
+    <Font cssVariable="--font-display" preload />
+    <Font cssVariable="--font-sans" preload />
+    <Font cssVariable="--font-mono" />
+
+    <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+    <script is:inline>
+      // Set motion tier before first paint so CSS hooks apply without a flash.
+      (function () {
+        try {
+          // Motion is on by default. The OS "Reduce Motion" setting is not used as a gate;
+          // visitors can switch motion off with the toggle in the footer (stored per browser).
+          var off = false;
+          try { off = localStorage.getItem('motion') === 'off'; } catch (e2) {}
+          var coarse = matchMedia('(pointer: coarse)').matches;
+          var mem = navigator.deviceMemory || 8;
+          var save = navigator.connection && navigator.connection.saveData;
+          var tier = off ? 'static' : coarse || mem < 4 || save ? 'lite' : 'full';
+          document.documentElement.setAttribute('data-motion-tier', tier);
+        } catch (e) {
+          document.documentElement.setAttribute('data-motion-tier', 'lite');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <canvas id="gl" aria-hidden="true"></canvas>
+    <Nav />
+    <slot />
+    <Footer />
+    <script>
+      import { initMotion } from '../lib/motion';
+      import { mountScenes } from '../lib/gl';
+      initMotion();
+      mountScenes();
+    </script>
+  </body>
+</html>

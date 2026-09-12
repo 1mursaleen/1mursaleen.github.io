@@ -4,6 +4,7 @@ import '../styles/tokens.css';
 import '../styles/base.css';
 import '../styles/typography.css';
 import '../styles/utilities.css';
+import '../styles/abbr.css';
 import Nav from '../components/ui/Nav.astro';
 import Footer from '../components/ui/Footer.astro';
 import { profile } from '../data/profile';
@@ -89,8 +90,10 @@ const ld = jsonLd ?? personJsonLd();
     <script>
       import { initMotion } from '../lib/motion';
       import { mountScenes } from '../lib/gl';
+      import { initAbbrTips } from '../lib/abbrTips';
       initMotion();
       mountScenes();
+      initAbbrTips();
     </script>
   </body>
 </html>

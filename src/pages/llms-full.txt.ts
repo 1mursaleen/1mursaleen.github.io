@@ -2,7 +2,6 @@ import type { APIRoute } from 'astro';
 import { profile } from '../data/profile';
 import { timeline } from '../data/timeline';
 import { caseStudies } from '../data/caseStudies';
-import { chapters } from '../data/chapters';
 import { stats } from '../data/stats';
 import { clients } from '../data/clients';
 import { stackColumns, platformLayer } from '../data/stack';
@@ -41,16 +40,6 @@ export const GET: APIRoute = () => {
   p(`### Education: ${profile.education.degree}, ${profile.education.school}, ${profile.education.period}`);
   p(`Majors: ${profile.education.majors.join(', ')}.`);
   p(profile.education.context);
-
-  h('Four chapters (narrative)');
-  chapters.forEach((c) => {
-    p(`### ${c.number} ${c.title} (${c.era}, ${c.place}; ${c.kicker})`);
-    c.paragraphs.forEach((x) => p(x));
-    p(`Pull quote: ${c.pullQuote}`);
-    p(`${c.bigNumber.value} ${c.bigNumber.label}.`);
-    p(`${c.stakes.title}: ${c.stakes.body}`);
-    p('');
-  });
 
   h('Proof in numbers');
   stats.forEach((x) => p(`- ${x.prefix ?? ''}${x.display}${x.suffix ?? ''} ${x.label} (source: ${x.source})`));

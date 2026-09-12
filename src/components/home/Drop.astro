@@ -5,12 +5,10 @@
  * placeholders drawn from the positioning pillars; to be merged later.
  */
 import { profile } from '../../data/profile';
-import { buildMailto } from '../../lib/hire';
 const [p1, p2, p3] = profile.pillars;
-const mailto = buildMailto();
 ---
 
-<section class="drop ink" id="top" data-drop aria-label="Introduction">
+<section class="drop ink" id="drop" data-drop aria-label="Interlude">
   <div class="drop__sticky">
     <canvas class="drop__canvas" aria-hidden="true"></canvas>
     <div class="drop__poster" aria-hidden="true"></div>
@@ -22,9 +20,7 @@ const mailto = buildMailto();
 
     <!-- Beat 0: opening -->
     <div class="drop__beat drop__beat--bl drop__beat--wide" data-beat="0-0.14">
-      <p class="mono drop__kicker"><span class="live" aria-hidden="true">●</span> {profile.name} · {profile.positioning}</p>
-      <h1 class="drop__title drop__title--hero">I direct <span class="hl">80 engineers</span><br />and ship with <em>agents.</em></h1>
-      <p class="drop__lede">A second-line engineering leader with a decade across healthcare, satellite ground infrastructure, EdTech and FinTech. Asset platforms integrated into <em>Saudi Arabia’s National Health Command Center</em>, the operations-dashboard team at <em>Eutelsat</em>, and an <em>AI-orchestrated delivery system</em> that compresses roadmaps from a year to months.</p>
+      <p class="drop__title">Three things<br /><em>I stand on.</em></p>
     </div>
     <div class="drop__beat drop__beat--br" data-beat="0-0.14">
       <p class="mono drop__hint">Scroll to go under <span class="drop__arrow">↓</span></p>
@@ -51,19 +47,7 @@ const mailto = buildMailto();
     <!-- Beat 4: closing -->
     <div class="drop__beat drop__beat--tc" data-beat="0.86-1">
       <p class="drop__title drop__title--center"><em>A career</em> is more<br />than a <em>flat résumé.</em></p>
-    </div>
-    <div class="drop__beat drop__beat--bl drop__beat--wide" data-beat="0.86-1">
-      <div class="drop__ctas">
-        <a href="#journey" class="btn drop__btn">Read the journey <span class="arrow">↓</span></a>
-        <a href={mailto} class="btn drop__btn">Hire me <span class="arrow">→</span></a>
-        <a href="/resume.json" class="link-arrow drop__link">resume.json <span class="arrow">↗</span></a>
-      </div>
-      <dl class="drop__facts mono">
-        <div><dt>Base</dt><dd>{profile.base} · remote US / EU / Gulf</dd></div>
-        <div><dt>Now</dt><dd>{profile.currentRole}</dd></div>
-        <div><dt>Stacks</dt><dd>Laravel · Node.js / TypeScript</dd></div>
-        <div><dt>Since</dt><dd>{profile.yearsSince}</dd></div>
-      </dl>
+      <p class="mono drop__hint drop__hint--center"><a href="#journey">Read the journey below ↓</a></p>
     </div>
   </div>
 </section>
@@ -293,6 +277,17 @@ const mailto = buildMailto();
   @keyframes drop-bounce {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(6px); }
+  }
+  .drop__hint--center {
+    margin-top: var(--space-l);
+  }
+  .drop__hint a {
+    color: #f7f7f7;
+  }
+  .drop__hint a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
   }
   a.drop__hint:hover {
     text-decoration: underline;

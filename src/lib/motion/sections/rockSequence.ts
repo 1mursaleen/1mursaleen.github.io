@@ -92,9 +92,9 @@ export function initRockSequence() {
   // Progress runs while the pinned stone (at 50vh) travels from the top to the bottom of the rows.
   const progress = () => {
     const r = section.getBoundingClientRect();
-    const pin = window.innerHeight * 0.5;
-    const total = r.height;
-    return total <= 0 ? 0 : Math.min(1, Math.max(0, (pin - r.top) / total));
+    const pin = window.innerHeight * 0.14 + 220;
+    const total = Math.max(1, r.height - 440);
+    return Math.min(1, Math.max(0, (pin - r.top) / total));
   };
   const onScroll = () => {
     target = Math.round(progress() * (count - 1));

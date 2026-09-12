@@ -4,13 +4,14 @@ import GlHost from '../gl/GlHost.astro';
 import { timelineChronological } from '../../data/timeline';
 import { profile } from '../../data/profile';
 import { places } from '../../data/places';
+import { getCaseStudy } from '../../data/caseStudies';
 const maxTeam = 80;
 ---
 
 <section class="section section--line journey" id="journey">
   <div class="container">
     <SectionHeader
-      n="01"
+      n="03"
       label="Journey"
       title="Dubai → Riyadh → orbit → <span class='accent'>the AI frontier.</span>"
       lede="One career narrative, four eras, increasing scope. No gaps: Ascend ended December 2022, Tanbits began January 2023. Eutelsat was a contract engagement alongside Tanbits."
@@ -40,7 +41,7 @@ const maxTeam = 80;
             {era.caseStudySlugs.length > 0 && (
               <ul class="journey__links">
                 {era.caseStudySlugs.map((s) => (
-                  <li><a class="link-arrow" href={`/work/${s}/`}>{s.replace(/-/g, ' ')} <span class="arrow">↗</span></a></li>
+                  <li><a class="link-arrow" href={`/work/${s}/`}>{getCaseStudy(s)?.client ?? s} <span class="arrow">↗</span></a></li>
                 ))}
               </ul>
             )}
@@ -57,8 +58,11 @@ const maxTeam = 80;
           <p class="journey__summary">Majors: {profile.education.majors.join(', ')}.</p>
         </li>
       </ol>
-      <div class="journey__sticky">
-        <GlHost scene="globe" props={{ mode: 'journey' }} aspect="1 / 1" />
+      <div class="journey__sticky" data-journey-sticky data-era="mazajnet">
+        <div class="journey__scenes">
+          <GlHost scene="globe" props={{ mode: 'journey' }} aspect="1 / 1" class="journey__scene journey__scene--globe" />
+          <GlHost scene="satellites" aspect="1 / 1" class="journey__scene journey__scene--sat" />
+        </div>
         <p class="mono-sm journey__place" data-journey-place>Islamabad</p>
       </div>
     </div>
@@ -83,6 +87,24 @@ const maxTeam = 80;
   .journey__sticky {
     position: sticky;
     top: 12vh;
+  }
+  .journey__scenes {
+    position: relative;
+    aspect-ratio: 1;
+  }
+  .journey__scenes :global(.journey__scene) {
+    position: absolute;
+    inset: 0;
+    transition: opacity 700ms var(--ease-out);
+  }
+  .journey__scenes :global(.journey__scene--sat) {
+    opacity: 0;
+  }
+  .journey__sticky[data-era='eutelsat'] .journey__scenes :global(.journey__scene--sat) {
+    opacity: 1;
+  }
+  .journey__sticky[data-era='eutelsat'] .journey__scenes :global(.journey__scene--globe) {
+    opacity: 0;
   }
   .journey__place {
     text-align: center;

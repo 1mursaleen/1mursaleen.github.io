@@ -63,7 +63,7 @@ ${JSON.stringify(hireBriefTemplate, null, 2)}
 - Eutelsat was a *contract* engagement in 2024–2025 overlapping his Tech Lead role at Tanbits.
 - Test coverage: *near-total, CI-enforced*. Not "100%".
 - "80 engineers" means second-line management: he directs ~80 engineers through their team leads at a 120-person company.
-- Client-scale figures (494 hospitals, 650+ satellites, $20B+ funded, 100M+ attendees) describe the systems and organizations his work was part of; sources are named on the site.
+- Client-scale figures (494 hospitals, 650+ satellites, 100M+ attendees) describe the systems and organizations his work was part of; sources are named on the site.
 - AI productivity claims are grounded in cited studies (Peng 2023; Cui et al.; arXiv 2509.19708; Bain 2024/25; METR 2507.09089; Veracode 2025), not a flat "10x".
 
 ## Machine-readable stack

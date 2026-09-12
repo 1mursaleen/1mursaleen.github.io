@@ -7,10 +7,10 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 const latest = posts[0];
 ---
 
-<section class="section section--line reading" id="reading">
+<section class="section section--line reading" id="writing">
   <div class="container reading__grid">
     <div class="reading__col" data-reveal="fade">
-      <p class="eyebrow"><span class="num">10</span> / Writing</p>
+      <p class="eyebrow">Writing</p>
       {latest ? (
         <a href={`/blog/${latest.id}/`} class="reading__post">
           <p class="mono-sm">{latest.data.pubDate.toISOString().slice(0, 10)}</p>
@@ -24,7 +24,7 @@ const latest = posts[0];
       <a class="link-arrow" href="/blog/">All posts <span class="arrow">↗</span></a>
     </div>
     <div class="reading__col" data-reveal="fade">
-      <p class="eyebrow"><span class="num">11</span> / Reading</p>
+      <p class="eyebrow">Reading</p>
       <h3 class="display display-4">{booksFraming}</h3>
       <ul class="reading__books">
         {booksRead.map((b) => (

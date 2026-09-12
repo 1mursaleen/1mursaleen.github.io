@@ -1,6 +1,14 @@
 ---
 import SectionHeader from '../ui/SectionHeader.astro';
 import { aiThesis, principles, toolchain, orchestratorGraph as g } from '../../data/aiSystem';
+import { evidence, evidenceAnswer } from '../../data/evidence';
+import { getCaseStudy } from '../../data/caseStudies';
+const proofs = [
+  { cs: getCaseStudy('mortgage-automator')!, tag: 'Speed', line: 'A roughly one-year loan-origination roadmap shipped in a few months.' },
+  { cs: getCaseStudy('primexis-aplitec')!, tag: 'Completeness', line: 'Regulated finance automation run agentically through the entire lifecycle by five engineers.' },
+];
+const support = evidence.filter((e) => e.kind === 'support');
+const counter = evidence.filter((e) => e.kind === 'counterweight');
 const byId = Object.fromEntries(g.nodes.map((n) => [n.id, n]));
 const path = (a: string, b: string) => {
   const A = byId[a], B = byId[b];
@@ -12,7 +20,7 @@ const path = (a: string, b: string) => {
 <section class="section section--line system ink" id="system">
   <div class="container">
     <SectionHeader
-      n="04"
+      n="01"
       label="The delivery system"
       title="Not “uses AI tools.”<br /><span class='accent'>Runs an operating model</span> built on them."
       lede={aiThesis}
@@ -59,6 +67,45 @@ const path = (a: string, b: string) => {
       ))}
     </ol>
 
+    <div class="proofs">
+      <p class="eyebrow">Two proofs</p>
+      <ul class="proofs__list">
+        {proofs.map((p) => (
+          <li class="card proofs__card">
+            <span class="mono">{p.tag}</span>
+            <h3 class="display display-5"><a href={`/work/${p.cs.slug}/`}>{p.cs.client}</a></h3>
+            <p>{p.line}</p>
+            <a class="link-arrow" href={`/work/${p.cs.slug}/`}>Read the case study <span class="arrow">→</span></a>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <details class="evidence">
+      <summary>
+        <span class="display display-5">The evidence, including the counterweights</span>
+        <span class="mono-sm">What the studies actually show. Specific figures, never a flat “10×”.</span>
+        <span class="evidence__plus" aria-hidden="true">+</span>
+      </summary>
+      <div class="evidence__body">
+        <ol class="evidence__list">
+          {support.map((e) => (
+            <li class="evidence__row">
+              <p class="mono-sm">{e.source}</p>
+              <p>{e.claim}</p>
+            </li>
+          ))}
+          {counter.map((e) => (
+            <li class="evidence__row evidence__row--counter">
+              <p class="mono-sm">Counterweight · {e.source}</p>
+              <p>{e.claim}</p>
+            </li>
+          ))}
+        </ol>
+        <blockquote class="pull-quote">{evidenceAnswer}</blockquote>
+      </div>
+    </details>
+
     <div class="toolchain">
       <p class="eyebrow">The toolchain the system draws on</p>
       <ul class="toolchain__list">
@@ -71,6 +118,73 @@ const path = (a: string, b: string) => {
 </section>
 
 <style>
+  .proofs {
+    margin-top: var(--space-3xl);
+    display: grid;
+    gap: var(--space-m);
+  }
+  .proofs__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-l);
+  }
+  .proofs__card {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+  }
+  .evidence {
+    margin-top: var(--space-2xl);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+  .evidence summary {
+    list-style: none;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.3em var(--space-m);
+    align-items: center;
+    padding: var(--space-m) 0;
+    cursor: pointer;
+  }
+  .evidence summary::-webkit-details-marker {
+    display: none;
+  }
+  .evidence summary .mono-sm {
+    grid-column: 1;
+  }
+  .evidence__plus {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    font-size: var(--step-2);
+    transition: transform var(--dur-1) var(--ease-out);
+  }
+  .evidence[open] .evidence__plus {
+    transform: rotate(45deg);
+  }
+  .evidence__body {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    padding-bottom: var(--space-xl);
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .evidence__body {
+      grid-template-columns: 1fr;
+    }
+  }
+  .evidence__row {
+    display: grid;
+    gap: var(--space-2xs);
+    padding-block: var(--space-m);
+    border-bottom: 1px solid var(--line);
+  }
+  .evidence__row--counter {
+    background: var(--surface-warm);
+    padding-inline: var(--space-m);
+    margin-inline: calc(-1 * var(--space-m));
+  }
   .orch {
     margin: 0 0 var(--space-3xl);
     display: grid;

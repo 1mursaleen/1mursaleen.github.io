@@ -30,7 +30,7 @@ public/           favicon, robots.txt, .well-known/agent-card.json, textures/lan
 
 ## orgnzm.studio pieces (used with permission)
 
-- `src/components/home/RockStats.astro` + `src/lib/motion/sections/rockSequence.ts`: the pinned stone that turns from ice to bloom to bare rock as the stat rows scroll past. The original is a 361-frame Lottie image sequence; the even frames are unpacked to `public/org/rock/NNN.webp` (181 files, 6.5 MB) and drawn on a canvas by scroll progress, loaded coarse-to-fine.
+- `src/components/home/Work.astro` + `src/lib/motion/sections/rockSequence.ts`: the pinned stone that turns from ice to bloom to bare rock as the case-study cards scroll past. The original is a 361-frame Lottie image sequence; the even frames are unpacked to `public/org/rock/NNN.webp` (181 files, 6.5 MB) and drawn on a canvas by scroll progress, loaded coarse-to-fine.
 
 ## Satellite scene and section rail
 

@@ -2,24 +2,8 @@ import type { Service } from './types';
 
 export const services: Service[] = [
   {
-    id: 'leadership',
-    tier: '01',
-    title: 'Engineering leadership',
-    tagline: 'I lead engineering orgs and install the AI-orchestrated delivery system in your teams.',
-    body:
-      'Head of Engineering, Director, or Tech Lead roles where the job is directing teams through their leads, sitting between technical and non-technical executives, and owning delivery. I bring the operating model: PRD-first specs, orchestrated builder/reviewer/tester agents, file-based durable state, and CI-enforced AI test suites.',
-    scope: [
-      'Second-line leadership of multi-team engineering orgs (proven at ~80 engineers via leads)',
-      'Installing the agentic delivery pipeline: PRDs → AI development → AI testing → AI CI/CD → UAT → delivery',
-      'Client and executive handling, approvals, product decisions, competitor research',
-      'Hiring, team-lead coaching, architecture and quality governance across Laravel and Node.js stacks',
-    ],
-    fit: 'Companies with 20 to 200 engineers that want velocity without quality drift, or enterprises modernizing delivery.',
-    primary: true,
-  },
-  {
     id: 'agentic-delivery',
-    tier: '02',
+    tier: '01',
     title: 'Fixed-scope agentic delivery',
     tagline: 'PRD → Delivery → Maintenance for a product or module. Full lifecycle, agentically.',
     body:
@@ -31,10 +15,11 @@ export const services: Service[] = [
       'Laravel/PHP or Node.js/TypeScript, with React, Vue, Next or Nuxt on the front',
     ],
     fit: 'Product teams with a backlog that would take a year the traditional way.',
+    primary: true,
   },
   {
     id: 'advisory',
-    tier: '03',
+    tier: '02',
     title: 'Delivery system advisory',
     tagline: 'Audit and redesign how your engineering org ships with AI.',
     body:
@@ -46,5 +31,20 @@ export const services: Service[] = [
       'Coverage and review gates that make speed safe',
     ],
     fit: 'CTOs and VPs who have Copilot licences but no system.',
+  },
+  {
+    id: 'leadership',
+    tier: '03',
+    title: 'Engineering leadership',
+    tagline: 'I lead engineering orgs and install the AI-orchestrated delivery system in your teams.',
+    body:
+      'Head of Engineering, Director, or Tech Lead roles where the job is directing teams through their leads, sitting between technical and non-technical executives, and owning delivery. I bring the operating model: PRD-first specs, orchestrated builder/reviewer/tester agents, file-based durable state, and CI-enforced AI test suites.',
+    scope: [
+      'Second-line leadership of multi-team engineering orgs (proven at ~80 engineers via leads)',
+      'Installing the agentic delivery pipeline: PRDs → AI development → AI testing → AI CI/CD → UAT → delivery',
+      'Client and executive handling, approvals, product decisions, competitor research',
+      'Hiring, team-lead coaching, architecture and quality governance across Laravel and Node.js stacks',
+    ],
+    fit: 'Companies with 20 to 200 engineers that want velocity without quality drift, or enterprises modernizing delivery.',
   },
 ];

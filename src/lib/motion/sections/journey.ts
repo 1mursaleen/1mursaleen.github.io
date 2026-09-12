@@ -7,6 +7,7 @@ import { ScrollTrigger } from '../gsap';
 export function initJourney() {
   const eras = document.querySelectorAll<HTMLElement>('.journey__era[data-place]');
   const caption = document.querySelector<HTMLElement>('[data-journey-place]');
+  const sticky = document.querySelector<HTMLElement>('[data-journey-sticky]');
   if (!eras.length) return;
   eras.forEach((era) => {
     const place = era.dataset.place!;
@@ -18,6 +19,7 @@ export function initJourney() {
       onToggle: (self) => {
         if (!self.isActive) return;
         if (caption) caption.textContent = name;
+        if (sticky) sticky.dataset.era = era.dataset.era ?? '';
         window.dispatchEvent(new CustomEvent('journey:place', { detail: { place } }));
       },
     });

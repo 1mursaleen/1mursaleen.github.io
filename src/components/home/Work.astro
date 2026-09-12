@@ -1,43 +1,57 @@
 ---
+/**
+ * Case studies, AI-first. Each card is the single home for that engagement on
+ * the homepage; the long prose lives on the case-study page. The pinned stone
+ * (orgnzm.studio, used with permission) morphs as the cards pass.
+ */
 import SectionHeader from '../ui/SectionHeader.astro';
 import { caseStudies } from '../../data/caseStudies';
 import { secondaryProjects } from '../../data/secondary';
+const sorted = [...caseStudies].sort((a, b) => a.order - b.order);
 ---
 
 <section class="section section--line work" id="work">
   <div class="container">
     <SectionHeader
-      n="07"
+      n="02"
       label="Case studies"
-      title="Seven systems.<br />Each with <span class='accent'>stakes.</span>"
-      lede="National health infrastructure, a satellite operator’s ground estate, a Sequoia-backed HIS, Tribal climate monitoring, private lending, regulated French finance, and the events platform that went 20x."
+      title="Shaped like stone.<br /><em>Pressure, care, and time.</em>"
+      lede="Seven systems, AI-first: private lending shipped in months, regulated French finance run agentically end to end, the SAP-recommended successor HIS, Tribal climate monitoring, a satellite operator’s ground estate, national health infrastructure, and the events platform that went 20x."
     />
-    <ol class="work__grid">
-      {caseStudies.map((cs) => (
-        <li class="work__card card card--interactive" data-reveal="fade" data-tilt>
-          <a href={`/work/${cs.slug}/`} class="work__link">
-            <div class="work__top">
-              <span class="mono-sm num">0{cs.order}</span>
-              <span class="mono-sm">{cs.period}</span>
-            </div>
-            <h3 class="display display-4 work__title">{cs.title}</h3>
-            <p class="work__client">{cs.client} · {cs.domain}</p>
-            <p class="work__summary">{cs.summary}</p>
-            <ul class="work__numbers">
-              {cs.numbers.slice(0, 3).map((n) => (
-                <li><b class="num">{n.value}</b><span class="mono-sm">{n.label}</span></li>
-              ))}
-            </ul>
-            <div class="work__foot">
-              <span class="mono-sm">{cs.teamSize}</span>
-              <span class="link-arrow">Read the case study <span class="arrow">→</span></span>
-            </div>
-          </a>
-        </li>
-      ))}
-    </ol>
+    <div class="work__layout" data-rock-sequence>
+      <ol class="work__list">
+        {sorted.map((cs) => (
+          <li class="work__card card card--interactive" data-tilt>
+            <a href={`/work/${cs.slug}/`} class="work__link">
+              <div class="work__top">
+                <span class="mono-sm num">0{cs.order}</span>
+                <span class="mono-sm">{cs.period}</span>
+              </div>
+              <h3 class="display display-4 work__title">{cs.title}</h3>
+              <p class="work__client">{cs.client} · {cs.domain}</p>
+              <p class="work__summary">{cs.summary}</p>
+              <ul class="work__numbers">
+                {cs.numbers.slice(0, 3).map((n) => (
+                  <li><b class="num">{n.value}</b><span class="mono-sm">{n.label}</span></li>
+                ))}
+              </ul>
+              <div class="work__foot">
+                <span class="mono-sm">{cs.teamSize}</span>
+                <span class="link-arrow">Read the case study <span class="arrow">→</span></span>
+              </div>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <div class="work__sticky" aria-hidden="true">
+        <div class="work__rock">
+          <canvas data-rock-canvas width="700" height="700"></canvas>
+          <img class="work__poster" src="/org/rock/000.webp" alt="" width="700" height="700" loading="lazy" />
+        </div>
+      </div>
+    </div>
 
-    <div class="work__more" data-reveal="fade">
+    <div class="work__more">
       <p class="eyebrow">More work</p>
       <ul class="work__secondary">
         {secondaryProjects.map((p) => (
@@ -52,10 +66,50 @@ import { secondaryProjects } from '../../data/secondary';
 </section>
 
 <style>
-  .work__grid {
+  .work__layout {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: start;
+  }
+  @media (max-width: 980px) {
+    .work__layout {
+      grid-template-columns: 1fr;
+    }
+    .work__sticky {
+      display: none;
+    }
+  }
+  .work__list {
+    display: grid;
     gap: var(--space-l);
+  }
+  .work__sticky {
+    position: sticky;
+    top: 14vh;
+    display: grid;
+    place-items: center;
+  }
+  .work__rock {
+    position: relative;
+    width: min(100%, 440px);
+    aspect-ratio: 1;
+  }
+  .work__rock canvas,
+  .work__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .work__poster {
+    opacity: 0;
+  }
+  html[data-motion-tier='static'] .work__poster {
+    opacity: 1;
+  }
+  html[data-motion-tier='static'] .work__rock canvas {
+    display: none;
   }
   .work__card {
     padding: 0;
@@ -75,7 +129,9 @@ import { secondaryProjects } from '../../data/secondary';
     font-size: var(--step-3);
   }
   .work__link:hover .work__title {
-    color: var(--accent-text);
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.12em;
   }
   .work__client {
     font-size: var(--step-0);
@@ -83,10 +139,6 @@ import { secondaryProjects } from '../../data/secondary';
   .work__summary {
     font-size: var(--step--1);
     line-height: 1.55;
-    display: -webkit-box;
-    -webkit-line-clamp: 4;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
   }
   .work__numbers {
     display: grid;
@@ -104,6 +156,7 @@ import { secondaryProjects } from '../../data/secondary';
     font-size: var(--step-2);
     letter-spacing: -0.03em;
     font-weight: var(--w-bold);
+    font-style: normal;
   }
   .work__foot {
     display: flex;
@@ -131,9 +184,12 @@ import { secondaryProjects } from '../../data/secondary';
   .work__secondary-name {
     font-family: var(--font-display), sans-serif;
     font-weight: var(--w-bold);
+    text-transform: uppercase;
     font-size: var(--step-1);
   }
-  .work__secondary-name:hover {
-    color: var(--accent-text);
-  }
 </style>
+
+<script>
+  import { initRockSequence } from '../../lib/motion/sections/rockSequence';
+  initRockSequence();
+</script>

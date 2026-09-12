@@ -3,7 +3,7 @@ import type { CaseStudy } from './types';
 export const caseStudies: CaseStudy[] = [
   {
     slug: 'nhcc-apm',
-    order: 1,
+    order: 6,
     title: 'Asset performance management for a Kingdom’s hospitals',
     accentWord: 'Kingdom’s',
     client: 'Saudi Ministry of Health, via Ascend',
@@ -49,7 +49,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'eutelsat-ops-dashboard',
-    order: 2,
+    order: 5,
     title: 'The control surface for a satellite operator’s ground estate',
     accentWord: 'ground',
     client: 'Eutelsat Group',
@@ -92,10 +92,10 @@ export const caseStudies: CaseStudy[] = [
   {
     slug: 'avelios',
     order: 3,
-    title: 'Core modules for Europe’s Sequoia-backed hospital information system',
-    accentWord: 'hospital',
+    title: 'Core modules for the SAP-recommended successor to IS-H',
+    accentWord: 'IS-H',
     client: 'Avelios Medical',
-    clientMeta: 'Munich · €30M Series A led by Sequoia · strategic investment from SAP',
+    clientMeta: 'Munich · strategic investment from SAP · SAP-recommended successor to IS-H',
     program: 'Operations, integrations, BI modules and workflow engine',
     period: '2023 – Present',
     employer: 'Tanbits',
@@ -109,10 +109,9 @@ export const caseStudies: CaseStudy[] = [
     stakes: {
       title: 'The stakes',
       body:
-        'SAP is exiting the hospital information system market; IS-H support ends around 2030 and up to 1,000 hospitals across Germany and Europe need to replace legacy HIS. Sequoia’s partner put it plainly: building a complete HIS is not for the faint-hearted. Replacing legacy hospital IT is one of healthtech’s hardest problems.',
+        'SAP is exiting the hospital information system market; IS-H support ends around 2030 and up to 1,000 hospitals across Germany and Europe need to replace legacy HIS. Building a complete HIS is not for the faint-hearted. Replacing legacy hospital IT is one of healthtech’s hardest problems.',
     },
     numbers: [
-      { value: '€30M', label: 'Series A led by Sequoia' },
       { value: '~1,000', label: 'hospitals that must replace IS-H' },
       { value: '56', label: 'Sana facilities among customers' },
       { value: '~30', label: 'engineers on the account' },
@@ -171,11 +170,11 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'mortgage-automator',
-    order: 5,
+    order: 1,
     title: 'A year of loan-origination roadmap, shipped in months',
     accentWord: 'months',
     client: 'Mortgage Automator',
-    clientMeta: 'Toronto · 400+ lenders · $20B+ funded in 2023 · SOC 2 Type II · BVP Forge recapitalization',
+    clientMeta: 'Toronto · 400+ lenders · SOC 2 Type II · BVP Forge recapitalization',
     program: 'Loan origination acceleration with the AI-orchestrated delivery system',
     period: '2024 – 2025',
     employer: 'Tanbits',
@@ -189,10 +188,9 @@ export const caseStudies: CaseStudy[] = [
     stakes: {
       title: 'The stakes',
       body:
-        'The platform funded more than $20 billion in 2023 for 375+ lenders across the US, Canada, Australia and New Zealand, and had just been recapitalized by BVP Forge, the private-equity arm tied to Bessemer Venture Partners. Velocity without quality drift was the whole assignment.',
+        'The platform serves 400+ private lenders across the US, Canada, Australia and New Zealand under SOC 2 Type II, and had just been recapitalized by BVP Forge, the private-equity arm tied to Bessemer Venture Partners. Velocity without quality drift was the whole assignment.',
     },
     numbers: [
-      { value: '$20B+', label: 'funded on the platform in 2023' },
       { value: '400+', label: 'lenders' },
       { value: 'Months', label: 'not a year, for the roadmap' },
     ],
@@ -208,7 +206,7 @@ export const caseStudies: CaseStudy[] = [
   },
   {
     slug: 'primexis-aplitec',
-    order: 6,
+    order: 2,
     title: 'Full-lifecycle agentic delivery for French finance and accounting firms',
     accentWord: 'agentic',
     client: 'Primexis & Groupe Aplitec',

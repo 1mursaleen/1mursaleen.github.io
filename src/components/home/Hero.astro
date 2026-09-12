@@ -1,0 +1,182 @@
+---
+/**
+ * Plain, fast hero: AI-first headline, lede, CTAs, four proof stats and the
+ * client credibility strip. The globe is the only visual; the Drop comes later.
+ */
+import GlHost from '../gl/GlHost.astro';
+import { profile } from '../../data/profile';
+import { stats } from '../../data/stats';
+import { clients } from '../../data/clients';
+import { buildMailto } from '../../lib/hire';
+const mailto = buildMailto();
+const pick = ['hospitals', 'engineers', 'months', 'prs'];
+const heroStats = pick.map((id) => stats.find((s) => s.id === id)!).filter(Boolean);
+---
+
+<header class="hero" id="top">
+  <div class="container hero__inner">
+    <div class="hero__copy">
+      <p class="eyebrow hero__kicker"><span class="live" aria-hidden="true">●</span> {profile.name} · {profile.positioning}</p>
+      <h1 class="display hero__title">
+        I run an <em>AI-orchestrated</em><br />delivery system<br />and direct <span class="hl">80 engineers.</span>
+      </h1>
+      <p class="lede">
+        PRDs as contracts, an orchestrator that spawns builder, reviewer and tester agents, durable file-based state, and
+        near-total CI-enforced test suites. A roughly one-year loan-origination roadmap shipped in <em>months</em>. Behind it, a
+        decade of national-scale systems: asset platforms integrated into <em>Saudi Arabia’s National Health Command Center</em>,
+        the operations-dashboard team at <em>Eutelsat</em>, second-line leadership of ~80 engineers at Tanbits.
+      </p>
+      <div class="hero__ctas">
+        <a href="#system" class="btn">See the system <span class="arrow">↓</span></a>
+        <a href={mailto} class="btn">Hire me <span class="arrow">→</span></a>
+        <a href="/resume.json" class="link-arrow">resume.json <span class="arrow">↗</span></a>
+      </div>
+    </div>
+    <div class="hero__visual">
+      <GlHost scene="globe" props={{ mode: 'hero' }} aspect="1 / 1" class="hero__globe" />
+      <p class="mono-sm hero__caption">Islamabad → Dubai → Riyadh → Paris → orbit → everywhere</p>
+    </div>
+  </div>
+
+  <div class="container hero__stats">
+    {heroStats.map((s) => (
+      <div class="hero__stat">
+        <span class="display hero__stat-value num">{s.prefix}{s.display}{s.suffix}</span>
+        <span class="hero__stat-label">{s.label}</span>
+        <span class="mono-sm">{s.source}</span>
+      </div>
+    ))}
+  </div>
+
+  <div class="container hero__clients" aria-label="Clients">
+    <p class="mono-sm hero__clients-label">Client credibility strip</p>
+    <ul class="hero__client-list">
+      {clients.map((c) => (
+        <li>
+          <a href={`/work/${c.caseStudySlug}/`} class="hero__client">
+            <span class="hero__client-name">{c.name}</span>
+            <span class="mono-sm">{c.qualifier}</span>
+          </a>
+        </li>
+      ))}
+    </ul>
+  </div>
+</header>
+
+<style>
+  .hero {
+    padding-block: clamp(3rem, 7vw, 6rem) var(--space-2xl);
+    border-bottom: 1px solid var(--line);
+  }
+  .hero__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+  @media (max-width: 980px) {
+    .hero__inner {
+      grid-template-columns: 1fr;
+    }
+    .hero__visual {
+      max-width: 380px;
+      margin-inline: auto;
+    }
+  }
+  .hero__copy {
+    display: grid;
+    gap: var(--space-l);
+  }
+  .hero__kicker {
+    display: flex;
+    gap: 0.7em;
+    align-items: center;
+  }
+  .live {
+    color: var(--accent-text);
+    animation: pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.35;
+    }
+  }
+  .hero__title {
+    font-size: clamp(2.6rem, 0.8rem + 5.4vw, 5.6rem);
+    line-height: 0.9;
+    max-width: 14ch;
+  }
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-s);
+    align-items: center;
+  }
+  .hero__caption {
+    margin-top: var(--space-s);
+    text-align: center;
+  }
+  .hero__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-l);
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--line);
+  }
+  .hero__stat {
+    display: grid;
+    gap: 0.3em;
+    align-content: start;
+  }
+  .hero__stat-value {
+    font-size: var(--step-5);
+    line-height: 0.85;
+    letter-spacing: -0.04em;
+  }
+  .hero__stat-label {
+    font-size: var(--step--1);
+    max-width: 26ch;
+  }
+  .hero__clients {
+    margin-top: var(--space-2xl);
+    display: grid;
+    gap: var(--space-s);
+  }
+  .hero__client-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .hero__client-list li {
+    background: var(--bg-0);
+  }
+  .hero__client {
+    display: grid;
+    gap: 0.3em;
+    padding: var(--space-m);
+    min-height: 96px;
+    transition: background var(--dur-1);
+  }
+  .hero__client:hover {
+    background: var(--bg-1);
+  }
+  .hero__client-name {
+    font-family: var(--font-display), sans-serif;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-size: var(--step-0);
+  }
+  .hero__client:hover .hero__client-name {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+  }
+</style>

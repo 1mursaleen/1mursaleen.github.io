@@ -11,7 +11,7 @@ const { n, label, title, id, lede, size = 'display-3' } = Astro.props;
 ---
 
 <header class="section-head" id={id}>
-  <p class="eyebrow section-head__label"><span class="num">{n}</span> / {label}</p>
+  <p class="eyebrow section-head__label">{n && <><span class="num">{n}</span> / </>}{label}</p>
   <h2 class:list={['display', size]} data-reveal="lines" set:html={title} />
   {lede && <p class="lede section-head__lede" data-reveal="fade">{lede}</p>}
   <slot />

@@ -1,25 +1,32 @@
 ---
+/**
+ * Work & journey: the career timeline is the spine and each employer appears once,
+ * with its case-study cards nested. Right column: the globe/satellite crossfade
+ * (journey.ts) and the morphing stone (rockSequence.ts, orgnzm.studio assets).
+ */
 import SectionHeader from '../ui/SectionHeader.astro';
 import GlHost from '../gl/GlHost.astro';
-import { timelineChronological } from '../../data/timeline';
+import { timeline } from '../../data/timeline';
 import { profile } from '../../data/profile';
 import { places } from '../../data/places';
 import { getCaseStudy } from '../../data/caseStudies';
+import { secondaryProjects } from '../../data/secondary';
+import { impactThread, threadTitle } from '../../data/impact';
 const maxTeam = 80;
 ---
 
-<section class="section section--line journey" id="journey">
+<section class="section section--line journey" id="work">
   <div class="container">
     <SectionHeader
       n="03"
-      label="Journey"
-      title="Dubai → Riyadh → orbit → <span class='accent'>the AI frontier.</span>"
-      lede="One career narrative, four eras, increasing scope. No gaps: Ascend ended December 2022, Tanbits began January 2023. Eutelsat was a contract engagement alongside Tanbits."
+      label="Work and journey"
+      title="Where I’ve worked,<br />and <em>what shipped.</em>"
+      lede="Four employers, newest first, each with the systems I delivered there. No gaps: Ascend ended December 2022, Tanbits began January 2023, and Eutelsat was a contract engagement alongside Tanbits."
     />
-    <div class="journey__layout">
+    <div class="journey__layout" data-rock-sequence>
       <ol class="journey__eras">
-        {timelineChronological.map((era, i) => (
-          <li class="journey__era" data-era={era.id} data-place={era.placeId} data-reveal="fade">
+        {timeline.map((era) => (
+          <li class="journey__era" data-era={era.id} data-place={era.placeId}>
             <div class="journey__meta">
               <span class="mono num">{era.period}</span>
               <span class="mono-sm">{places[era.placeId].name}, {places[era.placeId].country}</span>
@@ -27,7 +34,7 @@ const maxTeam = 80;
             </div>
             <h3 class="display display-4 journey__role">{era.role}</h3>
             <p class="journey__company">
-              <a href={era.url} target="_blank" rel="noopener">{era.company}</a>
+              {era.url ? <a href={era.url} target="_blank" rel="noopener">{era.company}</a> : <span>{era.company}</span>}
               <span class="muted"> · {era.location}</span>
             </p>
             {era.roleArc && <p class="mono-sm journey__arc">{era.roleArc}</p>}
@@ -39,15 +46,37 @@ const maxTeam = 80;
               <span class="mono-sm"><span class="num">{era.teamSize}</span> · {era.leadershipScale}</span>
             </div>
             {era.caseStudySlugs.length > 0 && (
-              <ul class="journey__links">
-                {era.caseStudySlugs.map((s) => (
-                  <li><a class="link-arrow" href={`/work/${s}/`}>{getCaseStudy(s)?.client ?? s} <span class="arrow">↗</span></a></li>
-                ))}
-              </ul>
+              <ol class="work__list">
+                {era.caseStudySlugs.map((slug) => {
+                  const cs = getCaseStudy(slug)!;
+                  return (
+                    <li class="work__card card card--interactive" data-tilt>
+                      <a href={`/work/${cs.slug}/`} class="work__link">
+                        <div class="work__top">
+                          <span class="mono-sm">{cs.client} · {cs.domain}</span>
+                          <span class="mono-sm">{cs.period}</span>
+                        </div>
+                        <h4 class="display display-5 work__title">{cs.title}</h4>
+                        <p class="work__summary">{cs.summary}</p>
+                        <ul class="work__numbers">
+                          {cs.numbers.slice(0, 3).map((n) => (
+                            <li><b class="num">{n.value}</b><span class="mono-sm">{n.label}</span></li>
+                          ))}
+                        </ul>
+                        <div class="work__foot">
+                          <span class="mono-sm">{cs.teamSize}</span>
+                          <span class="link-arrow">Read the case study <span class="arrow">→</span></span>
+                        </div>
+                        <p class="mono-sm work__sources">Figures: {cs.sources.map((l) => l.label).join(' · ')}</p>
+                      </a>
+                    </li>
+                  );
+                })}
+              </ol>
             )}
           </li>
         ))}
-        <li class="journey__era journey__era--edu" data-reveal="fade">
+        <li class="journey__era journey__era--edu">
           <div class="journey__meta">
             <span class="mono num">{profile.education.period}</span>
             <span class="mono-sm">Islamabad, Pakistan</span>
@@ -58,14 +87,55 @@ const maxTeam = 80;
           <p class="journey__summary">Majors: {profile.education.majors.join(', ')}.</p>
         </li>
       </ol>
-      <div class="journey__sticky" data-journey-sticky data-era="mazajnet">
+      <div class="journey__sticky" data-journey-sticky data-era="tanbits">
         <div class="journey__scenes">
           <GlHost scene="globe" props={{ mode: 'journey' }} aspect="1 / 1" class="journey__scene journey__scene--globe" />
           <GlHost scene="satellites" aspect="1 / 1" class="journey__scene journey__scene--sat" />
         </div>
-        <p class="mono-sm journey__place" data-journey-place>Islamabad</p>
+        <p class="mono-sm journey__place" data-journey-place>Lahore</p>
+        <div class="work__rock" aria-hidden="true">
+          <canvas data-rock-canvas width="700" height="700"></canvas>
+          <img class="work__poster" src="/org/rock/000.webp" alt="" width="700" height="700" loading="lazy" />
+        </div>
       </div>
     </div>
+
+    <div class="work__more">
+      <p class="eyebrow">More work</p>
+      <ul class="work__secondary">
+        {secondaryProjects.map((p) => (
+          <li>
+            <a href={p.url} target="_blank" rel="noopener" class="work__secondary-name">{p.name} ↗</a>
+            <p class="muted">{p.body}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+
+    <div class="impact">
+      <p class="eyebrow">{threadTitle}</p>
+      <div class="impact__thread">
+        <svg class="impact__line" viewBox="0 0 1200 8" preserveAspectRatio="none" aria-hidden="true">
+          <path d="M0 4 H1200" class="impact__line-path" data-draw />
+        </svg>
+        <ol class="impact__stops">
+          {impactThread.map((s) => (
+            <li class="impact__stop">
+              <span class="impact__dot" aria-hidden="true"></span>
+              <p class="mono-sm">{s.era} · {places[s.placeId].name}</p>
+              <h3 class="display display-5">{s.title}</h3>
+              <p>{s.body}</p>
+              {s.link && <a class="link-arrow" href={s.link.href} target="_blank" rel="noopener">{s.link.label} <span class="arrow">↗</span></a>}
+            </li>
+          ))}
+        </ol>
+      </div>
+    </div>
+
+    <p class="mono-sm work__attribution">
+      Client-scale figures describe the systems and organizations my work was part of, not personal attribution. Every figure is sourced on its card and on the case-study page.
+      <a href="/sources/">All sources ↗</a>
+    </p>
   </div>
 </section>
 
@@ -86,11 +156,15 @@ const maxTeam = 80;
   }
   .journey__sticky {
     position: sticky;
-    top: 12vh;
+    top: 14vh;
+    display: grid;
+    gap: var(--space-s);
+    justify-items: center;
   }
   .journey__scenes {
     position: relative;
     aspect-ratio: 1;
+    width: min(100%, 300px);
   }
   .journey__scenes :global(.journey__scene) {
     position: absolute;
@@ -108,7 +182,27 @@ const maxTeam = 80;
   }
   .journey__place {
     text-align: center;
-    margin-top: var(--space-s);
+  }
+  .work__rock {
+    position: relative;
+    width: min(100%, 300px);
+    aspect-ratio: 1;
+  }
+  .work__rock canvas,
+  .work__poster {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+  .work__poster {
+    opacity: 0;
+  }
+  html[data-motion-tier='static'] .work__poster {
+    opacity: 1;
+  }
+  html[data-motion-tier='static'] .work__rock canvas {
+    display: none;
   }
   .journey__eras {
     display: grid;
@@ -156,19 +250,140 @@ const maxTeam = 80;
     height: 100%;
     width: var(--w);
     background: var(--ink-2);
-    box-shadow: none;
     transform-origin: left;
   }
-  .journey__links {
-    display: flex;
-    flex-wrap: wrap;
+  .work__list {
+    display: grid;
     gap: var(--space-m);
-    margin-top: var(--space-xs);
-    text-transform: capitalize;
+    margin-top: var(--space-m);
   }
-  .journey__majors {
+  .work__card {
+    padding: 0;
+  }
+  .work__link {
+    display: grid;
+    gap: var(--space-s);
+    padding: var(--space-l);
+    height: 100%;
+    align-content: start;
+  }
+  .work__top {
     display: flex;
+    justify-content: space-between;
     flex-wrap: wrap;
-    gap: var(--space-2xs);
+    gap: var(--space-xs);
+  }
+  .work__title {
+    font-size: var(--step-2);
+  }
+  .work__link:hover .work__title {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.12em;
+  }
+  .work__summary {
+    font-size: var(--step--1);
+    line-height: 1.55;
+  }
+  .work__numbers {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-s);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--line);
+  }
+  .work__numbers li {
+    display: grid;
+    gap: 0.2em;
+  }
+  .work__numbers b {
+    font-family: var(--font-display), sans-serif;
+    font-size: var(--step-2);
+    letter-spacing: -0.03em;
+    font-weight: var(--w-bold);
+    font-style: normal;
+  }
+  .work__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: var(--space-s);
+    margin-top: auto;
+  }
+  .work__sources {
+    color: var(--fg-muted);
+  }
+  .work__more,
+  .impact {
+    margin-top: var(--space-3xl);
+    display: grid;
+    gap: var(--space-m);
+  }
+  .work__secondary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-l);
+  }
+  .work__secondary li {
+    display: grid;
+    gap: var(--space-xs);
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--line);
+  }
+  .work__secondary-name {
+    font-family: var(--font-display), sans-serif;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    font-size: var(--step-1);
+  }
+  .impact__thread {
+    position: relative;
+    display: grid;
+    gap: var(--space-l);
+  }
+  .impact__line {
+    width: 100%;
+    height: 8px;
+  }
+  .impact__line-path {
+    stroke: var(--ink-2);
+    stroke-width: 2;
+    fill: none;
+  }
+  .impact__stops {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: var(--space-l);
+  }
+  .impact__stop {
+    display: grid;
+    gap: var(--space-xs);
+    align-content: start;
+    position: relative;
+    padding-top: var(--space-s);
+  }
+  .impact__dot {
+    position: absolute;
+    top: calc(-1 * var(--space-l) - 3px);
+    left: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--ink);
+  }
+  .work__attribution {
+    margin-top: var(--space-2xl);
+    padding-top: var(--space-m);
+    border-top: 1px solid var(--line);
+    color: var(--fg-muted);
+    max-width: 90ch;
+  }
+  .work__attribution a {
+    color: var(--fg);
   }
 </style>
+
+<script>
+  import { initRockSequence } from '../../lib/motion/sections/rockSequence';
+  initRockSequence();
+</script>

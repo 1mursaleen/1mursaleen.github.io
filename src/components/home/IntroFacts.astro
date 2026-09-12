@@ -1,0 +1,97 @@
+---
+/** Hero facts (Base / Now / Stacks / Since) and the client credibility strip. */
+import { profile } from '../../data/profile';
+import { clients } from '../../data/clients';
+import { stackColumns } from '../../data/stack';
+const facts = [
+  { k: 'Base', v: `${profile.base} · ${profile.remote}` },
+  { k: 'Now', v: profile.currentRole },
+  { k: 'Stacks', v: stackColumns.map((c) => c.title).join(' · ') },
+  { k: 'Since', v: `${profile.yearsSince}, senior within the first year` },
+];
+---
+
+<div class="facts section--line">
+  <div class="container">
+    <dl class="facts__list">
+      {facts.map((f) => (
+        <div class="facts__item">
+          <dt class="mono-sm">{f.k}</dt>
+          <dd>{f.v}</dd>
+        </div>
+      ))}
+    </dl>
+    <div class="facts__clients" aria-label="Clients">
+      <p class="mono-sm">Where the work has been used</p>
+      <ul class="facts__client-list">
+        {clients.map((c) => (
+          <li>
+            <a href={`/work/${c.caseStudySlug}/`} class="facts__client">
+              <span class="facts__client-name">{c.name}</span>
+              <span class="mono-sm">{c.qualifier}</span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</div>
+
+<style>
+  .facts {
+    padding-bottom: var(--space-2xl);
+  }
+  .facts__list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-l);
+    margin: 0;
+    padding-top: var(--space-l);
+    border-top: 1px solid var(--line);
+  }
+  .facts__item {
+    display: grid;
+    gap: 0.3em;
+  }
+  .facts__item dd {
+    margin: 0;
+    font-size: var(--step-0);
+  }
+  .facts__clients {
+    margin-top: var(--space-2xl);
+    display: grid;
+    gap: var(--space-s);
+  }
+  .facts__client-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 1px;
+    background: var(--line);
+    border: 1px solid var(--line);
+  }
+  .facts__client-list li {
+    background: var(--bg-0);
+  }
+  .facts__client {
+    display: grid;
+    gap: 0.3em;
+    padding: var(--space-m);
+    min-height: 96px;
+    transition: background var(--dur-1);
+  }
+  .facts__client:hover {
+    background: var(--bg-1);
+  }
+  .facts__client-name {
+    font-family: var(--font-display), sans-serif;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    letter-spacing: -0.01em;
+    font-size: var(--step-0);
+  }
+  .facts__client:hover .facts__client-name {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+  }
+</style>

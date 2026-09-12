@@ -3,6 +3,17 @@ import SectionHeader from '../ui/SectionHeader.astro';
 import { aiThesis, principles, toolchain, orchestratorGraph as g } from '../../data/aiSystem';
 import { evidence, evidenceAnswer } from '../../data/evidence';
 import { getCaseStudy } from '../../data/caseStudies';
+import { stackColumns, platformLayer } from '../../data/stack';
+import { services } from '../../data/services';
+import { buildMailto } from '../../lib/hire';
+const rows: { key: keyof (typeof stackColumns)[0]; label: string }[] = [
+  { key: 'provenOn', label: 'Proven on' },
+  { key: 'backend', label: 'Backend' },
+  { key: 'frontend', label: 'Frontend pairing' },
+  { key: 'data', label: 'Data' },
+  { key: 'languages', label: 'Languages' },
+];
+const engagementFor = (id: string) => (id === 'leadership' ? 'leadership-role' : id === 'advisory' ? 'advisory' : 'fixed-scope-delivery');
 const proofs = [
   { cs: getCaseStudy('mortgage-automator')!, tag: 'Speed', line: 'A roughly one-year loan-origination roadmap shipped in a few months.' },
   { cs: getCaseStudy('primexis-aplitec')!, tag: 'Completeness', line: 'Regulated finance automation run agentically through the entire lifecycle by five engineers.' },
@@ -17,12 +28,12 @@ const path = (a: string, b: string) => {
 };
 ---
 
-<section class="section section--line system ink" id="system">
+<section class="section section--line system ink" id="deliver">
   <div class="container">
     <SectionHeader
-      n="01"
-      label="The delivery system"
-      title="Not “uses AI tools.”<br /><span class='accent'>Runs an operating model</span> built on them."
+      n="02"
+      label="How I deliver"
+      title="I don’t “use AI tools.”<br />I run an <span class='accent'>operating model</span> built on them."
       lede={aiThesis}
     />
 
@@ -113,6 +124,67 @@ const path = (a: string, b: string) => {
       </ul>
       <p class="toolchain__note">The tools are not the headline. The orchestration, durable state, review gates and CI-enforced test suites are.</p>
       <a class="link-arrow" href="/blog/ai-orchestrated-delivery-system/">Read the full write-up <span class="arrow">↗</span></a>
+    </div>
+
+    <div class="dual">
+      <div class="dual__head">
+        <p class="eyebrow">Dual-stack proof map</p>
+        <h3 class="display display-4">Senior in <em>both</em> stacks. Proven in production on each.</h3>
+        <p class="dual__lede">Most engineers are senior in one ecosystem and conversational in the other. Each column is backed by national or enterprise-scale systems I shipped.</p>
+      </div>
+      <div class="dual__grid">
+        {stackColumns.map((col) => (
+          <div class="dual__col card" data-stack={col.id}>
+            <h4 class="display display-5">{col.title}</h4>
+            <dl class="dual__rows">
+              {rows.map((r) => (
+                <div class="dual__row">
+                  <dt class="mono-sm">{r.label}</dt>
+                  <dd>
+                    <ul class="dual__tags">
+                      {(col[r.key] as string[]).map((v) => (
+                        <li class:list={['tag', { 'tag--proof': r.key === 'provenOn' }]}>{v}</li>
+                      ))}
+                    </ul>
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </div>
+        ))}
+      </div>
+      <div class="dual__platform">
+        <p class="eyebrow">Platform layer, both stacks</p>
+        <dl class="dual__platform-rows">
+          {Object.entries(platformLayer).map(([k, v]) => (
+            <div class="dual__row">
+              <dt class="mono-sm">{k}</dt>
+              <dd class="muted">{v.join(' · ')}</dd>
+            </div>
+          ))}
+        </dl>
+      </div>
+    </div>
+
+    <div class="offers">
+      <div class="dual__head">
+        <p class="eyebrow">Ways to work together</p>
+        <h3 class="display display-4">Lead your org. Or ship your <em>module.</em></h3>
+      </div>
+      <ol class="offers__grid">
+        {services.map((s) => (
+          <li class:list={['card offers__card', { 'offers__card--primary': s.primary }]}>
+            <span class="mono num">{s.tier}</span>
+            <h4 class="display display-5">{s.title}</h4>
+            <p class="offers__tagline">{s.tagline}</p>
+            <p>{s.fit}</p>
+            <div class="offers__actions">
+              <a class="link-arrow" href={`/services/#${s.id}`}>View scope <span class="arrow">↗</span></a>
+              <a class="link-arrow" href={buildMailto({ engagement: engagementFor(s.id) })}>Enquire <span class="arrow">→</span></a>
+            </div>
+          </li>
+        ))}
+      </ol>
     </div>
   </div>
 </section>
@@ -268,5 +340,87 @@ const path = (a: string, b: string) => {
   }
   .toolchain__note {
     max-width: 60ch;
+  }
+  .dual,
+  .offers {
+    margin-top: var(--space-3xl);
+    padding-top: var(--space-2xl);
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: var(--space-xl);
+  }
+  .dual__head {
+    display: grid;
+    gap: var(--space-s);
+    max-width: 70ch;
+  }
+  .dual__lede {
+    color: var(--fg-muted);
+  }
+  .dual__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: var(--space-l);
+  }
+  .dual__col {
+    display: grid;
+    gap: var(--space-l);
+    align-content: start;
+  }
+  .dual__rows,
+  .dual__platform-rows {
+    display: grid;
+    gap: var(--space-m);
+    margin: 0;
+  }
+  .dual__row {
+    display: grid;
+    gap: var(--space-xs);
+  }
+  .dual__row dd {
+    margin: 0;
+  }
+  .dual__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2xs);
+  }
+  .tag--proof {
+    color: var(--ink);
+    background: var(--paper);
+    border-color: var(--paper);
+  }
+  .dual__platform {
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--line);
+    display: grid;
+    gap: var(--space-m);
+  }
+  .dual__platform-rows {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+  .offers__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: var(--space-l);
+  }
+  .offers__card {
+    display: grid;
+    gap: var(--space-m);
+    align-content: start;
+  }
+  .offers__card--primary {
+    border-color: var(--yellow);
+  }
+  .offers__tagline {
+    font-size: var(--step-1);
+    line-height: 1.35;
+    text-wrap: pretty;
+  }
+  .offers__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-m);
+    margin-top: auto;
   }
 </style>

@@ -1,6 +1,7 @@
 import type { APIRoute } from 'astro';
 import { caseStudies } from '../data/caseStudies';
 import { profile } from '../data/profile';
+import { expandText } from '../lib/abbr';
 
 export const GET: APIRoute = () =>
   new Response(
@@ -11,7 +12,7 @@ export const GET: APIRoute = () =>
         count: caseStudies.length,
         caseStudies: [...caseStudies]
           .sort((a, b) => a.order - b.order)
-          .map((cs) => ({ ...cs, url: `${profile.site}/work/${cs.slug}/` })),
+          .map((cs) => ({ ...cs, summary: expandText(cs.summary, new Set()), url: `${profile.site}/work/${cs.slug}/` })),
       },
       null,
       2,

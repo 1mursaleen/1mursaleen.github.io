@@ -1,60 +1,28 @@
 ---
 import { booksRead, booksFraming } from '../../data/books';
-import { getCollection } from 'astro:content';
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
-const latest = posts[0];
 ---
 
-<section class="section section--line reading" id="writing">
-  <div class="container reading__grid">
-    <div class="reading__col" data-reveal="fade">
-      <p class="eyebrow">Writing</p>
-      {latest ? (
-        <a href={`/blog/${latest.id}/`} class="reading__post">
-          <p class="mono-sm">{latest.data.pubDate.toISOString().slice(0, 10)}</p>
-          <h3 class="display display-4">{latest.data.title}</h3>
-          <p class="muted">{latest.data.description}</p>
-          <span class="link-arrow">Read the post <span class="arrow">↗</span></span>
-        </a>
-      ) : (
-        <p class="muted">First post coming: the AI-orchestrated delivery system write-up.</p>
-      )}
-      <a class="link-arrow" href="/blog/">All posts <span class="arrow">↗</span></a>
-    </div>
-    <div class="reading__col" data-reveal="fade">
-      <p class="eyebrow">Reading</p>
-      <h3 class="display display-4">{booksFraming}</h3>
-      <ul class="reading__books">
-        {booksRead.map((b) => (
-          <li><b>{b.title}</b><span class="muted"> · {b.author}</span></li>
-        ))}
-      </ul>
-      <a class="link-arrow" href="/books/">Full list, including the queue <span class="arrow">↗</span></a>
-    </div>
+<section class="section--tight section--line reading" id="reading">
+  <div class="container reading__col">
+    <p class="eyebrow">Reading</p>
+    <h3 class="display display-4">{booksFraming}</h3>
+    <ul class="reading__books">
+      {booksRead.map((b) => (
+        <li><b>{b.title}</b><span class="muted"> · {b.author}</span></li>
+      ))}
+    </ul>
+    <a class="link-arrow" href="/books/">Full list, including the queue <span class="arrow">↗</span></a>
   </div>
 </section>
 
 <style>
-  .reading__grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-    gap: var(--space-2xl);
+  .reading {
+    padding-block: var(--space-2xl);
   }
   .reading__col {
     display: grid;
     gap: var(--space-m);
-    align-content: start;
     justify-items: start;
-  }
-  .reading__post {
-    display: grid;
-    gap: var(--space-s);
-    justify-items: start;
-  }
-  .reading__post:hover h3 {
-    color: var(--accent-text);
   }
   .reading__books {
     display: grid;

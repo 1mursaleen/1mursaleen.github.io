@@ -14,8 +14,8 @@ export const timeline: TimelineEra[] = [
     teamSize: 80,
     leadershipScale: '~80 engineers via team leads, in a company of 120',
     summary:
-      'Second-line leadership across a 120-person software house. I direct roughly 80 engineers through their team leads, across every web and mobile discipline, and own client handling, delivery, approvals, product decisions and market research alongside the directors. Over the past year the whole delivery lifecycle has run agentically: PRDs → AI development → AI Playwright testing → AI CI/CD → UAT → final delivery.',
-    caseStudySlugs: ['avelios', 'isn', 'mortgage-automator', 'primexis-aplitec'],
+      'Second-line leadership across a 120-person software house: I direct roughly 80 engineers through their team leads and own client handling, delivery, approvals and product decisions alongside the directors. Over the past year the whole delivery lifecycle has run agentically, from PRD to AI development, AI testing, AI CI/CD, UAT and final delivery.',
+    caseStudySlugs: ['mortgage-automator', 'primexis-aplitec', 'avelios', 'isn'],
     url: 'https://tanbits.com',
   },
   {
@@ -50,7 +50,7 @@ export const timeline: TimelineEra[] = [
     teamSize: 25,
     leadershipScale: '25 direct reports, cross-functional',
     summary:
-      "GE Healthcare's partner in Saudi Arabia and the delivery partner that established the National Health Command Center. I led a 25-person team of senior engineers, DevOps, designers, QA and mobile developers building the asset performance management and hospital operations automation platforms integrated into the NHCC, during COVID-era national digitization.",
+      "GE HealthCare's partner in Saudi Arabia and the delivery partner that established the National Health Command Center. I led a 25-person cross-functional team building the asset performance management and hospital operations automation platforms integrated into the NHCC, during COVID-era national digitization.",
     caseStudySlugs: ['nhcc-apm'],
     url: 'https://ascend.com.sa/en/',
   },
@@ -69,7 +69,6 @@ export const timeline: TimelineEra[] = [
     summary:
       'Promoted to senior within my first year. Led a team of five serving universities in the EdTech sector, supporting SDG 4 by helping institutions in underdeveloped countries adopt technology. The last two years were spent building features for vFairs, exactly as COVID pushed admissions and events online.',
     caseStudySlugs: ['vfairs'],
-    url: 'https://www.vfairs.com',
   },
 ];
 

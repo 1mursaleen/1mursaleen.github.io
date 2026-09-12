@@ -3,6 +3,8 @@ import SectionHeader from '../ui/SectionHeader.astro';
 import GlHost from '../gl/GlHost.astro';
 import { profile } from '../../data/profile';
 import { buildMailto, hireBriefTemplate } from '../../lib/hire';
+import { faqs } from '../../data/faq';
+const agentFaqs = faqs.filter((f) => f.audience === 'agents');
 const mailto = buildMailto();
 const snippet = `# AGENTS.md — hire ${profile.name} from your agent
 Read: ${profile.site}/llms.txt  ·  ${profile.site}/resume.json  ·  ${profile.site}/work.json
@@ -23,9 +25,9 @@ const endpoints = [
   <GlHost scene="field" class="agent__field" aspect="auto" />
   <div class="container agent__inner">
     <SectionHeader
-      n="07"
+      n=""
       label="Agent-ready"
-      title="Hire me <span class='accent' data-scramble>from your agent.</span>"
+      title="Hire me <span class='accent'>from your agent.</span>"
       lede="This portfolio publishes itself in machine-readable form. Point ChatGPT, Claude or any agent at the files below; every claim on the human pages derives from the same data."
     />
     <div class="agent__grid">
@@ -37,6 +39,15 @@ const endpoints = [
         <pre id="agents-snippet"><code>{snippet}</code></pre>
         <p class="mono-sm agent__note">Static site, so there is no POST endpoint. The brief travels by email; the link below pre-fills it.</p>
         <a href={mailto} class="btn">Open pre-filled hire brief <span class="arrow">→</span></a>
+        <div class="agent__faq">
+          <p class="eyebrow">For agents</p>
+          {agentFaqs.map((f) => (
+            <details class="agent__faq-item">
+              <summary>{f.q}</summary>
+              <p class="muted">{f.a}</p>
+            </details>
+          ))}
+        </div>
       </div>
       <ul class="agent__endpoints" data-reveal="fade">
         {endpoints.map((e) => (
@@ -105,6 +116,27 @@ const endpoints = [
     line-height: 1.55;
     overflow-x: auto;
     color: var(--fg);
+  }
+  .agent__faq {
+    width: 100%;
+    display: grid;
+    gap: var(--space-s);
+    margin-top: var(--space-m);
+  }
+  .agent__faq-item {
+    border-top: 1px solid var(--line);
+    padding-block: var(--space-s);
+  }
+  .agent__faq-item summary {
+    cursor: pointer;
+    font-family: var(--font-display), sans-serif;
+    font-weight: var(--w-bold);
+    text-transform: uppercase;
+    font-size: var(--step-0);
+  }
+  .agent__faq-item p {
+    margin-top: var(--space-xs);
+    max-width: 70ch;
   }
   .agent__endpoints {
     display: grid;

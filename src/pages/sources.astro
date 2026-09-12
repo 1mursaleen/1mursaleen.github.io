@@ -1,0 +1,53 @@
+---
+import Page from '../layouts/Page.astro';
+import { sourceGroups } from '../data/sources';
+---
+
+<Page
+  title="Sources"
+  description="Every claim on this site is traceable: public filings, investor decks, peer-reviewed papers and the organizations’ own sites."
+  eyebrow="Sources"
+  heading="Every claim,<br /><span class='accent'>traceable.</span>"
+  lede="Client-scale figures come from public filings, investor decks, peer-reviewed papers and the organizations’ own sites. They describe the systems and organizations my work was part of, not personal attribution."
+>
+  <section class="container section--tight sources">
+    <div class="sources__grid">
+      {sourceGroups.map((g) => (
+        <div class="sources__group">
+          <p class="mono-sm">{g.title}</p>
+          <ul>
+            {g.links.map((l) => (
+              <li><a href={l.href} target="_blank" rel="noopener">{l.label}</a></li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+  </section>
+</Page>
+
+<style>
+  .sources {
+    padding-bottom: var(--section-pad);
+  }
+  .sources__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-xl);
+  }
+  .sources__group {
+    display: grid;
+    gap: var(--space-xs);
+    align-content: start;
+  }
+  .sources__group ul {
+    display: grid;
+    gap: 0.4em;
+    font-size: var(--step--1);
+  }
+  .sources__group a:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+  }
+</style>

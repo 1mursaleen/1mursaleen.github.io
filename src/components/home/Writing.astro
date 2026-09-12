@@ -1,0 +1,46 @@
+---
+import { getCollection } from 'astro:content';
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+);
+const latest = posts[0];
+---
+
+<section class="section--tight section--line writing" id="writing">
+  <div class="container writing__col">
+    <p class="eyebrow">Writing</p>
+    {latest ? (
+      <a href={`/blog/${latest.id}/`} class="writing__post">
+        <p class="mono-sm">{latest.data.pubDate.toISOString().slice(0, 10)}</p>
+        <h3 class="display display-4">{latest.data.title}</h3>
+        <p class="muted">{latest.data.description}</p>
+        <span class="link-arrow">Read the post <span class="arrow">↗</span></span>
+      </a>
+    ) : (
+      <p class="muted">First post coming: the AI-orchestrated delivery system write-up.</p>
+    )}
+    <a class="link-arrow" href="/blog/">All posts <span class="arrow">↗</span></a>
+  </div>
+</section>
+
+<style>
+  .writing {
+    padding-block: var(--space-2xl);
+  }
+  .writing__col {
+    display: grid;
+    gap: var(--space-m);
+    justify-items: start;
+  }
+  .writing__post {
+    display: grid;
+    gap: var(--space-s);
+    justify-items: start;
+    max-width: 70ch;
+  }
+  .writing__post:hover h3 {
+    text-decoration: underline;
+    text-decoration-thickness: 3px;
+    text-underline-offset: 0.12em;
+  }
+</style>

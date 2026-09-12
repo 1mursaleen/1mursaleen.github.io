@@ -3,34 +3,38 @@ import Base from '../layouts/Base.astro';
 import Marquee from '../components/ui/Marquee.astro';
 import SectionNav from '../components/ui/SectionNav.astro';
 import Hero from '../components/home/Hero.astro';
-import Orchestrator from '../components/home/Orchestrator.astro';
-import Work from '../components/home/Work.astro';
 import Drop from '../components/home/Drop.astro';
+import IntroFacts from '../components/home/IntroFacts.astro';
+import Orchestrator from '../components/home/Orchestrator.astro';
 import Journey from '../components/home/Journey.astro';
-import DualStack from '../components/home/DualStack.astro';
-import Services from '../components/home/Services.astro';
-import ImpactThread from '../components/home/ImpactThread.astro';
+import Volunteering from '../components/home/Volunteering.astro';
+import Contact from '../components/home/Contact.astro';
 import AgentReady from '../components/home/AgentReady.astro';
 import Faq from '../components/home/Faq.astro';
+import Writing from '../components/home/Writing.astro';
 import Reading from '../components/home/Reading.astro';
-import Sources from '../components/home/Sources.astro';
 ---
 
 <Base>
-  <Marquee />
   <SectionNav />
   <main>
+    <!-- 1 Introduction -->
     <Hero />
-    <Orchestrator />
-    <Work />
     <Drop />
+    <IntroFacts />
+    <Marquee />
+    <!-- 2 How I deliver -->
+    <Orchestrator />
+    <!-- 3 Work and journey -->
     <Journey />
-    <DualStack />
-    <Services />
-    <ImpactThread />
+    <!-- 4 Volunteering -->
+    <Volunteering />
+    <!-- 5 Contact -->
+    <Contact />
+    <!-- Utility tail -->
     <AgentReady />
     <Faq />
+    <Writing />
     <Reading />
-    <Sources />
   </main>
 </Base>

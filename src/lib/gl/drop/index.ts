@@ -87,6 +87,14 @@ export function mountDrop() {
     });
   };
 
-  // Start right away: the section is the first thing on screen.
-  setTimeout(() => void start(), 50);
+  // Load once the section approaches the viewport so the intro text paints first.
+  const gate = new IntersectionObserver(
+    ([e]) => {
+      if (!e.isIntersecting) return;
+      gate.disconnect();
+      void start();
+    },
+    { rootMargin: '120% 0px 120% 0px' },
+  );
+  gate.observe(section);
 }

@@ -25,13 +25,6 @@ export const impactThread: ImpactStop[] = [
     body: 'The Indigenous Sentinels Network platform and offline-first apps, with community data sovereignty under the CARE Principles.',
     link: { label: 'ISN', href: 'https://www.sentinelsnetwork.org' },
   },
-  {
-    id: 'volunteer',
-    placeId: 'lahore',
-    era: 'Ongoing',
-    title: 'Volunteer platforms in Pakistan',
-    body: 'Management platforms for disaster relief, children’s cardiac care and poverty relief, built for nonprofits on my own time.',
-  },
 ];
 
 export const volunteer: Volunteer[] = [
@@ -55,5 +48,6 @@ export const volunteer: Volunteer[] = [
   },
 ];
 
+export const threadTitle = 'The thread through all of it';
 export const impactSummary =
   'Mission-driven engineering across four countries and three continents, spanning paid and volunteer work.';

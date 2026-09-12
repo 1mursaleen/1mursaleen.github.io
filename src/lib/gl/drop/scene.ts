@@ -320,7 +320,9 @@ export async function createDropScene(canvas: HTMLCanvasElement, tier: MotionTie
     },
     resize,
     dispose() {
-      this.stop();
+      running = false;
+      cancelAnimationFrame(raf);
+      video.pause();
       window.removeEventListener('pointermove', onMove);
       composer.dispose();
       envRT.dispose();

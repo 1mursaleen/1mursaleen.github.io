@@ -2,14 +2,6 @@
 slug: mortgage-automator
 ---
 
-## The chapter: the frontier
-
-Tanbits is a 120-person software house with offices in Lahore and Doha and a Boston association. I direct roughly 80 engineers through their team leads, across every web and mobile discipline, and own client handling, delivery, approvals, product decisions and market research alongside the directors. Second-line leadership: I manage the leads who manage the teams.
-
-Over the past year the whole pipeline has run agentically. PRDs → AI development → AI Playwright testing → AI CI/CD → UAT → final delivery, on compound engineering with file-based durable state. Not AI tools bolted onto a team, but a development operating model.
-
-**The stakes.** Velocity is worthless with quality drift. The system exists to make speed safe: PRDs as contracts, reviewer agents, and near-total, CI-enforced AI test suites.
-
 ## The client
 
 Mortgage Automator is a Toronto-based loan origination and servicing platform purpose-built for private and hard-money lenders. More than 375 lenders at the time, now 400+, across the US, Canada, Australia and New Zealand. SOC 2 Type II. In May 2024 it took a majority recapitalization from BVP Forge, the private-equity arm tied to the $18B+ Bessemer Venture Partners platform that backed LinkedIn, Shopify, Toast, Twilio and Procore. In August 2026 it acquired the US competitor Lendr.
@@ -35,3 +27,10 @@ The roadmap would have taken about a year the traditional way. It took a few mon
 This is the speed proof of the system. PRDs, AI-drafted and human-reviewed, were the contract. An orchestrator session spawned builders working features in parallel, reviewers validating their output, and testers generating unit and Playwright suites. Coverage stayed near-total and CI-enforced. Context, decisions and the roadmap lived in versioned files, so every session started from accumulated state rather than from zero. Throughput ran to scores of merged PRs per week.
 
 Velocity without quality drift was the whole assignment, on a platform regulated lenders run their books on. That is why the system has reviewers and CI gates and not just builders.
+
+## The full story
+Tanbits is a 120-person software house with offices in Lahore and Doha and a Boston association. I direct roughly 80 engineers through their team leads, across every web and mobile discipline, and own client handling, delivery, approvals, product decisions and market research alongside the directors. Second-line leadership: I manage the leads who manage the teams.
+
+Over the past year the whole pipeline has run agentically. PRDs → AI development → AI Playwright testing → AI CI/CD → UAT → final delivery, on compound engineering with file-based durable state. Not AI tools bolted onto a team, but a development operating model.
+
+**The stakes.** Velocity is worthless with quality drift. The system exists to make speed safe: PRDs as contracts, reviewer agents, and near-total, CI-enforced AI test suites.

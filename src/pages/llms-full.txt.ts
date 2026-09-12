@@ -14,6 +14,7 @@ import { services } from '../data/services';
 import { faqs } from '../data/faq';
 import { sourceGroups } from '../data/sources';
 import { hireBriefTemplate } from '../lib/hire';
+import { expandText } from '../lib/abbr';
 
 export const GET: APIRoute = () => {
   const s = profile.site;
@@ -21,7 +22,7 @@ export const GET: APIRoute = () => {
   const h = (t: string) => out.push('', `## ${t}`, '');
   const p = (t: string) => out.push(t);
 
-  out.push(`# ${profile.name} — full profile`, '', `${profile.positioning}. ${profile.oneLiner}`, '', `Contact: ${profile.email} · ${profile.phone} · ${profile.github} · ${s}`, `Base: ${profile.base}. ${profile.remote}. ${profile.availability}.`);
+  out.push(`# ${profile.name} — full profile`, '', profile.headline, '', ...profile.intro, '', `${profile.positioning}. ${profile.oneLiner}`, '', `Contact: ${profile.email} · ${profile.phone} · ${profile.github} · ${s}`, `Base: ${profile.base}. ${profile.remote}. ${profile.availability}.`);
 
   h('Positioning pillars');
   profile.pillars.forEach((x) => p(`${x.n}. ${x.title}. ${x.body}`));
@@ -40,6 +41,9 @@ export const GET: APIRoute = () => {
   p(`### Education: ${profile.education.degree}, ${profile.education.school}, ${profile.education.period}`);
   p(`Majors: ${profile.education.majors.join(', ')}.`);
   p(profile.education.context);
+
+  h('Volunteer engineering');
+  volunteer.forEach((v) => p(`- ${v.name} (${v.url}): ${v.what} ${v.about}`));
 
   h('Proof in numbers');
   stats.forEach((x) => p(`- ${x.prefix ?? ''}${x.display}${x.suffix ?? ''} ${x.label} (source: ${x.source})`));
@@ -81,11 +85,9 @@ export const GET: APIRoute = () => {
   });
   p(`Platform layer (both stacks): ${Object.entries(platformLayer).map(([k, v]) => `${k}: ${v.join(', ')}`).join('; ')}.`);
 
-  h('Impact thread');
+  h('The thread through all of it');
   p(impactSummary);
   impactThread.forEach((x) => p(`- ${x.era} · ${x.title}: ${x.body}${x.link ? ` (${x.link.href})` : ''}`));
-  p('Volunteer engineering:');
-  volunteer.forEach((v) => p(`- ${v.name} (${v.url}): ${v.what} ${v.about}`));
 
   h('Secondary projects');
   secondaryProjects.forEach((x) => p(`- ${x.name} (${x.url}): ${x.body}`));
@@ -117,5 +119,5 @@ export const GET: APIRoute = () => {
     g.links.forEach((l) => p(`- ${l.label}: ${l.href}`));
   });
 
-  return new Response(out.join('\n') + '\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+  return new Response(expandText(out.join('\n')) + '\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };

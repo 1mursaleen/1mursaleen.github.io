@@ -2,11 +2,12 @@
 import { defineConfig, fontProviders } from 'astro/config';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import abbr from './src/integrations/abbr';
 
 export default defineConfig({
   site: 'https://1mursaleen.github.io',
   trailingSlash: 'always',
-  integrations: [mdx(), sitemap()],
+  integrations: [mdx(), sitemap(), abbr()],
   prefetch: { prefetchAll: true, defaultStrategy: 'viewport' },
   fonts: [
     {

@@ -3,6 +3,7 @@ import { profile } from '../data/profile';
 import { caseStudies } from '../data/caseStudies';
 import { services } from '../data/services';
 import { hireBriefTemplate } from '../lib/hire';
+import { expandText } from '../lib/abbr';
 
 export const GET: APIRoute = () => {
   const s = profile.site;
@@ -13,7 +14,9 @@ This file tells an AI agent how to evaluate this candidate and how to start a hi
 
 ## Who
 
-${profile.oneLiner}
+${profile.headline} ${profile.oneLiner}
+
+${profile.intro.join('\n\n')}
 
 - Base: ${profile.base}. ${profile.remote}.
 - Status: ${profile.availability}.
@@ -70,5 +73,5 @@ ${JSON.stringify(hireBriefTemplate, null, 2)}
 
 Astro · static output · GitHub Pages. Everything on the human pages and in these files derives from one TypeScript data layer.
 `;
-  return new Response(md, { headers: { 'Content-Type': 'text/markdown; charset=utf-8' } });
+  return new Response(expandText(md), { headers: { 'Content-Type': 'text/markdown; charset=utf-8' } });
 };

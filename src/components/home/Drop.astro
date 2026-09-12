@@ -1,8 +1,7 @@
 ---
 /**
- * The Drop: full-viewport, scroll-driven 3D descent (recreation of the
- * drop.peachworlds.com mechanics with procedural assets). Text beats are
- * placeholders drawn from the positioning pillars; to be merged later.
+ * The Drop: full-viewport, scroll-driven 3D descent (drop.peachworlds.com assets,
+ * used with permission). Carries the three positioning pillars inside the intro.
  */
 import { profile } from '../../data/profile';
 const [p1, p2, p3] = profile.pillars;
@@ -14,7 +13,7 @@ const [p1, p2, p3] = profile.pillars;
     <div class="drop__poster" aria-hidden="true"></div>
 
     <div class="drop__loader" data-drop-loader aria-hidden="true">
-      <p class="drop__loader-text">3D is just around the corner…</p>
+      <p class="drop__loader-text">Loading the scene</p>
       <p class="drop__loader-pct mono" data-drop-progress>0%</p>
     </div>
 
@@ -46,8 +45,8 @@ const [p1, p2, p3] = profile.pillars;
 
     <!-- Beat 4: closing -->
     <div class="drop__beat drop__beat--tc" data-beat="0.86-1">
-      <p class="drop__title drop__title--center"><em>A career</em> is more<br />than a <em>flat résumé.</em></p>
-      <p class="mono drop__hint drop__hint--center"><a href="#journey">Read the journey below ↓</a></p>
+      <p class="drop__title drop__title--center">Everything below<br />is <em>the evidence.</em></p>
+      <p class="mono drop__hint drop__hint--center"><a href="#deliver">Start with how I deliver ↓</a></p>
     </div>
   </div>
 </section>
@@ -167,15 +166,6 @@ const [p1, p2, p3] = profile.pillars;
   .drop__title em {
     font-style: italic;
   }
-  .drop__title--hero {
-    font-size: clamp(2.4rem, 0.8rem + 5vw, 5.2rem);
-    line-height: 0.88;
-    margin: 0;
-    max-width: 13ch;
-  }
-  .drop__title--hero .hl {
-    white-space: nowrap;
-  }
   @media (min-width: 1100px) {
     .drop__beat--bl,
     .drop__beat--tl,
@@ -183,75 +173,8 @@ const [p1, p2, p3] = profile.pillars;
       left: calc(var(--gutter) + 6.5rem);
     }
   }
-  .drop__title--hero .hl {
-    background: var(--yellow);
-    color: var(--ink);
-    padding: 0 0.06em;
-    font-style: normal;
-  }
   .drop__beat--wide {
     max-width: 46rem;
-  }
-  .drop__kicker {
-    color: #f7f7f7;
-    letter-spacing: 0.12em;
-    margin-bottom: var(--space-s);
-    display: flex;
-    gap: 0.6em;
-    align-items: center;
-  }
-  .drop__kicker .live {
-    color: var(--yellow);
-  }
-  .drop__lede {
-    margin-top: var(--space-m);
-    font-size: var(--step-0);
-    line-height: 1.5;
-    max-width: 58ch;
-    color: #f7f7f7;
-  }
-  .drop__lede em {
-    font-style: italic;
-  }
-  .drop__ctas {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-s);
-    align-items: center;
-  }
-  .drop__btn {
-    color: #f7f7f7;
-    border-color: #f7f7f7;
-  }
-  .drop__btn:hover {
-    background: #f7f7f7;
-    color: var(--ink);
-  }
-  .drop__link {
-    color: #f7f7f7;
-    text-decoration-color: #f7f7f7;
-  }
-  .drop__facts {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: var(--space-s) var(--space-l);
-    margin: var(--space-l) 0 0;
-    padding-top: var(--space-m);
-    border-top: 1px solid rgba(247, 247, 247, 0.25);
-    text-align: left;
-    max-width: 40rem;
-    color: #f7f7f7;
-    letter-spacing: 0.06em;
-  }
-  .drop__facts dt {
-    opacity: 0.6;
-    font-size: var(--step--2);
-  }
-  .drop__facts dd {
-    margin: 0.2em 0 0;
-    font-size: var(--step--1);
-    text-transform: none;
-    letter-spacing: 0.02em;
   }
   .drop__h {
     font-family: var(--font-display), sans-serif;

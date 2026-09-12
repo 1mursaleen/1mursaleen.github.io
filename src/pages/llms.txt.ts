@@ -1,13 +1,16 @@
 import type { APIRoute } from 'astro';
 import { profile } from '../data/profile';
 import { caseStudies } from '../data/caseStudies';
+import { expandText } from '../lib/abbr';
 
 export const GET: APIRoute = () => {
   const s = profile.site;
   const lines = [
     `# ${profile.name}`,
     '',
-    `> ${profile.positioning}. ${profile.oneLiner}`,
+    `> ${profile.headline} ${profile.oneLiner}`,
+    '',
+    ...profile.intro,
     '',
     `Base: ${profile.base}. ${profile.remote}. ${profile.availability}.`,
     `Contact: ${profile.email} · ${profile.phone} · ${profile.github}`,
@@ -24,12 +27,13 @@ export const GET: APIRoute = () => {
     `- [Discovery card](${s}/.well-known/agent-card.json)`,
     '',
     '## Pages',
-    `- [Home: full narrative, journey, numbers, delivery system, stack, impact, services, FAQ](${s}/)`,
+    `- [Home: introduction, how I deliver, work and journey, volunteering, contact](${s}/)`,
     `- [All case studies](${s}/work/)`,
     ...[...caseStudies].sort((a, b) => a.order - b.order).map((c) => `- [${c.title}](${s}/work/${c.slug}/): ${c.client}, ${c.period}, ${c.teamSize}`),
     `- [Services](${s}/services/)`,
     `- [Blog](${s}/blog/)`,
     `- [Books](${s}/books/)`,
+    `- [Sources](${s}/sources/)`,
     '',
     '## Honesty notes',
     '- NHCC: built the asset-management and operations platforms integrated into the National Health Command Center; did not build the NHCC itself.',
@@ -38,5 +42,5 @@ export const GET: APIRoute = () => {
     '- Test coverage: near-total, CI-enforced.',
     '- Client-scale figures describe the systems and organizations the work was part of, with sources named.',
   ];
-  return new Response(lines.join('\n') + '\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
+  return new Response(expandText(lines.join('\n')) + '\n', { headers: { 'Content-Type': 'text/plain; charset=utf-8' } });
 };

@@ -4,6 +4,12 @@ export const profile = {
   handle: '1mursaleen',
   positioning: 'Engineering Leader / Tech Lead — Laravel & Node.js',
   positioningShort: 'Engineering Leader · Tech Lead',
+  headline: 'I’m an engineering leader who ships with agents.',
+  intro: [
+    'For ten years I’ve built software where failure isn’t an option — asset platforms inside Saudi Arabia’s National Health Command Center (NHCC) during the pandemic, the operations dashboard for Eutelsat’s satellite ground estate, and hospital-system modules used by some of Germany’s largest clinics. Along the way I grew from leading five engineers in Dubai to directing eighty through their team leads today.',
+    'I’m equally at home in two worlds most engineers pick one of: senior depth in both PHP/Laravel and Node.js/TypeScript. And for the past year I’ve run the entire software lifecycle agentically — from product requirement document (PRD) to development, testing, deployment, and final delivery, with AI agents doing the building and me doing the directing. A one-year roadmap shipped in months. Regulated financial compliance shipped the same way.',
+    'If you’re deciding whether I can lead your engineering org or ship your product: everything below is the evidence, and every claim is sourced.',
+  ],
   tagline: 'PRD → Delivery → Maintenance. Full lifecycle, agentically.',
   oneLiner:
     'A second-line engineering leader with a decade across healthcare, satellite ground infrastructure, EdTech, and FinTech — who directs up to 80 engineers through team leads and ships with an AI-orchestrated delivery system.',

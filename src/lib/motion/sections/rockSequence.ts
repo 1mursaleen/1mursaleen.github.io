@@ -89,11 +89,13 @@ export function initRockSequence() {
     }
   };
 
-  // Progress runs while the pinned stone (at 50vh) travels from the top to the bottom of the rows.
+  // Progress runs while the sticky column (top: 14vh) travels from the top to the bottom of the rows.
+  const stickyEl = (canvas.closest('[data-journey-sticky]') as HTMLElement | null) ?? canvas.parentElement!;
   const progress = () => {
     const r = section.getBoundingClientRect();
-    const pin = window.innerHeight * 0.14 + 220;
-    const total = Math.max(1, r.height - 440);
+    const sh = stickyEl.offsetHeight || 440;
+    const pin = window.innerHeight * 0.14 + sh;
+    const total = Math.max(1, r.height - sh);
     return Math.min(1, Math.max(0, (pin - r.top) / total));
   };
   const onScroll = () => {
@@ -102,8 +104,17 @@ export function initRockSequence() {
   };
 
   fit();
-  pump();
   onScroll();
+  // Fetch frames only when the section approaches the viewport.
+  const gate = new IntersectionObserver(
+    ([e]) => {
+      if (!e.isIntersecting) return;
+      gate.disconnect();
+      pump();
+    },
+    { rootMargin: '100% 0px 100% 0px' },
+  );
+  gate.observe(section);
   window.addEventListener('scroll', onScroll, { passive: true });
   window.addEventListener(
     'resize',

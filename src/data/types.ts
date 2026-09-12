@@ -38,7 +38,7 @@ export interface TimelineEra {
   leadershipScale: string;
   summary: string;
   caseStudySlugs: string[];
-  url: string;
+  url?: string;
 }
 
 export type StatFormat = 'int' | 'compact' | 'currency' | 'text';
@@ -60,23 +60,6 @@ export interface Client {
   qualifier: string;
   url: string;
   caseStudySlug: string;
-}
-
-export interface Chapter {
-  id: string;
-  number: string;
-  era: string;
-  title: string;
-  place: string;
-  placeId: PlaceId;
-  kicker: string;
-  paragraphs: string[];
-  pullQuote: string;
-  bigNumber: { value: string; label: string };
-  stakes: { title: string; body: string };
-  links: Link[];
-  caseStudySlugs: string[];
-  scene?: 'satellites';
 }
 
 export interface CaseStudy {

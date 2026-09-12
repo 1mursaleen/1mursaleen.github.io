@@ -4,6 +4,7 @@ import { caseStudies } from '../data/caseStudies';
 import { stackColumns, platformLayer } from '../data/stack';
 import { volunteer } from '../data/impact';
 import { booksRead } from '../data/books';
+import { expandText } from './abbr';
 
 /** Maps the data layer to the JSON Resume schema (https://jsonresume.org/schema). */
 export function toJsonResume() {
@@ -19,7 +20,7 @@ export function toJsonResume() {
       email: profile.email,
       phone: profile.phone,
       url: profile.site,
-      summary: profile.oneLiner,
+      summary: expandText(`${profile.headline} ${profile.oneLiner} ${profile.intro.join(' ')}`),
       location: { countryCode: 'PK', region: profile.base },
       profiles: [{ network: 'GitHub', username: profile.handle, url: profile.github }],
     },
@@ -29,7 +30,7 @@ export function toJsonResume() {
       url: era.url,
       startDate: `${era.start}-01-01`,
       endDate: era.end ? `${era.end}-12-31` : undefined,
-      summary: era.summary,
+      summary: expandText(era.summary, new Set()),
       highlights: [
         `Leadership scale: ${era.leadershipScale}`,
         ...(era.contract ? ['Contract engagement, overlapping with Tanbits'] : []),
@@ -69,7 +70,7 @@ export function toJsonResume() {
       .sort((a, b) => a.order - b.order)
       .map((cs) => ({
         name: cs.title,
-        description: cs.summary,
+        description: expandText(cs.summary, new Set()),
         highlights: cs.outcomes,
         keywords: cs.stack,
         startDate: startOf(cs.period),

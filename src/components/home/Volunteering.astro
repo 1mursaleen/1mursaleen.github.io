@@ -1,0 +1,46 @@
+---
+import SectionHeader from '../ui/SectionHeader.astro';
+import { volunteer } from '../../data/impact';
+---
+
+<section class="section section--line volunteering" id="volunteering">
+  <div class="container">
+    <SectionHeader
+      n="04"
+      label="Volunteering"
+      title="Volunteer engineering,<br /><em>Pakistan.</em>"
+      lede="Platforms I helped build for nonprofits on my own time: disaster relief, children’s cardiac care and poverty relief."
+    />
+    <ul class="volunteering__orgs">
+      {volunteer.map((v) => (
+        <li class="card">
+          <a href={v.url} target="_blank" rel="noopener" class="volunteering__name display">{v.name} ↗</a>
+          <p>{v.what}</p>
+          <p class="muted">{v.about}</p>
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .volunteering__orgs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: var(--space-l);
+  }
+  .volunteering__orgs li {
+    display: grid;
+    gap: var(--space-xs);
+    align-content: start;
+  }
+  .volunteering__name {
+    font-size: var(--step-2);
+    font-weight: var(--w-bold);
+  }
+  .volunteering__name:hover {
+    text-decoration: underline;
+    text-decoration-thickness: 2px;
+    text-underline-offset: 0.16em;
+  }
+</style>

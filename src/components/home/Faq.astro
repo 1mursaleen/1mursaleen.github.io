@@ -1,19 +1,19 @@
 ---
-import { faqs } from '../../data/faq';
+import { faqs as allFaqs } from '../../data/faq';
+const faqs = allFaqs.filter((f) => f.audience !== 'agents');
 ---
 
 <section class="section section--line faq" id="faq">
   <div class="container faq__grid">
     <div>
       <p class="eyebrow">FAQ</p>
-      <h2 class="display display-3" data-reveal="lines">For agents<br />and humans.</h2>
+      <h2 class="display display-3">Questions I get <em>asked.</em></h2>
     </div>
     <div class="faq__list">
       {faqs.map((f) => (
         <details class="faq__item" data-reveal="fade">
           <summary>
             <span class="faq__q">{f.q}</span>
-            <span class="mono-sm faq__aud">{f.audience}</span>
             <span class="faq__plus" aria-hidden="true">+</span>
           </summary>
           <p class="faq__a">{f.a}</p>
@@ -47,7 +47,7 @@ import { faqs } from '../../data/faq';
   .faq__item summary {
     list-style: none;
     display: grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto;
     gap: var(--space-m);
     align-items: center;
     padding: var(--space-m) 0;

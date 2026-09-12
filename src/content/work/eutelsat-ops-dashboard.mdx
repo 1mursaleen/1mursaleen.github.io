@@ -2,18 +2,6 @@
 slug: eutelsat-ops-dashboard
 ---
 
-## The chapter: orbit
-
-Eutelsat became the world’s first integrated GEO-LEO satellite operator after merging with OneWeb in September 2023: 341 geostationary satellites carrying some 6,500 TV channels, plus a low-Earth-orbit constellation of 650+ satellites at around 1,200 km, and 40+ ground station sites worldwide. Europe’s Starlink, notably used in Ukraine.
-
-I joined on contract as a backend-to-IoT engineer and grew into leading the web dashboard backend team of six senior engineers. We built the complex internal, client-facing operations dashboard through which the entire ground and device estate is monitored and controlled, and integrated all device controls end-to-end: backend services to IoT-connected ground hardware. Real-time telemetry, alarms, service provisioning, traffic shaping, capacity management, for network operators.
-
-It meant talking with everyone across a much larger satellite and devices engineering organization to align APIs, protocols and operational semantics, and working inside DVB and satellite transport constraints: IP encapsulation into MPEG-TS, multicast delivery, real-time performance, broadcast-grade availability.
-
-> The ground segment is the unsung half of a satellite network.
-
-**The stakes.** In January 2025 a two-day OneWeb outage was caused by a ground-segment software leap-year bug. Operator-grade monitoring and control software is what keeps a constellation usable. Very few full-stack engineers have worked at that grade.
-
 ## The operator
 
 Eutelsat Group became the world’s first integrated GEO-LEO satellite operator when its all-share merger with OneWeb completed on 28 September 2023. The fleet, per the May 2025 investor deck: 341 geostationary satellites carrying roughly 1,200 transponders, some 6,500 TV channels and 690+ Gbps of high-throughput capacity, plus the OneWeb low-Earth-orbit constellation of 650+ satellites at about 1,200 km. Revenue around €1.24B for FY2025/26. The French and UK governments are shareholders. In 2025 the group raised about €1.5B and ordered 340 more OneWeb satellites from Airbus. It is positioned as Europe’s Starlink, notably in Ukraine.
@@ -35,3 +23,14 @@ The constraints were operator-grade: real-time performance, high availability, b
 ## Why this matters
 
 In January 2025 a two-day OneWeb outage was caused by a ground-segment software leap-year bug. That is the clearest possible proof of why operator-grade ground monitoring and control software matters: the satellites were fine, the ground software was not, and the service went dark. Very few full-stack engineers have worked at that standard on a live constellation’s control surface. The contract ended in 2025.
+
+## The full story
+Eutelsat became the world’s first integrated GEO-LEO satellite operator after merging with OneWeb in September 2023: 341 geostationary satellites carrying some 6,500 TV channels, plus a low-Earth-orbit constellation of 650+ satellites at around 1,200 km, and 40+ ground station sites worldwide. Europe’s Starlink, notably used in Ukraine.
+
+I joined on contract as a backend-to-IoT engineer and grew into leading the web dashboard backend team of six senior engineers. We built the complex internal, client-facing operations dashboard through which the entire ground and device estate is monitored and controlled, and integrated all device controls end-to-end: backend services to IoT-connected ground hardware. Real-time telemetry, alarms, service provisioning, traffic shaping, capacity management, for network operators.
+
+It meant talking with everyone across a much larger satellite and devices engineering organization to align APIs, protocols and operational semantics, and working inside DVB and satellite transport constraints: IP encapsulation into MPEG-TS, multicast delivery, real-time performance, broadcast-grade availability.
+
+> The ground segment is the unsung half of a satellite network.
+
+**The stakes.** In January 2025 a two-day OneWeb outage was caused by a ground-segment software leap-year bug. Operator-grade monitoring and control software is what keeps a constellation usable. Very few full-stack engineers have worked at that grade.

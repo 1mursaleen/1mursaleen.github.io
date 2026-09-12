@@ -15,7 +15,7 @@ Content-dense, motion-rich portfolio built with Astro 7, Three.js, GSAP and Leni
 
 ```
 src/data/         facts: profile, timeline, caseStudies, chapters, stats, clients, stack, aiSystem, evidence, impact, services, faq, books, sources
-src/components/   home/* one component per homepage section · ui/* shared pieces · gl/GlHost.astro WebGL host
+src/components/   home/* homepage sections: Hero → Drop → IntroFacts → Marquee → Orchestrator (how I deliver, incl. stack and offers) → Journey (work and journey, incl. impact thread) → Volunteering → Contact → AgentReady → Faq → Writing → Reading · ui/* shared pieces · gl/GlHost.astro WebGL host
 src/layouts/      Base (shell, fonts, SEO, canvas, motion bootstrap) · CaseStudy · Article · Page
 src/lib/motion/   GSAP + Lenis: declarative data-reveal / data-counter / data-scramble / data-parallax / data-draw / data-tilt
 src/lib/gl/       one shared WebGLRenderer drawing into [data-gl] hosts via scissor viewports; scenes: globe, satellites, field
@@ -26,11 +26,11 @@ public/           favicon, robots.txt, .well-known/agent-card.json, textures/lan
 
 ## The Drop section
 
-`src/components/home/Drop.astro` is a 600vh scroll container with a sticky canvas. `src/lib/gl/drop/scene.ts` rebuilds the drop.peachworlds.com scene from its scene state using the original Peach Worlds assets in `public/drop/` (rock, hand, ring and animated sphere GLBs with Draco compression, studio EXR environment, looping gradient video), used with permission from Peach Worlds. Water normal maps are from the three.js examples (MIT); Draco decoders are in `public/draco/`. Timeline: camera descends y 11.4 → −0.4, the sphere shrinks, ignites into an animated gradient between 27.7% and 32.3%, a glowing ring rotates between 19% and 35%, rubble and a reflective floor wait at the bottom. Text beats are `[data-beat="start-end"]` overlays faded by scroll progress. The Drop is the homepage hero: the opening beat carries the headline, name and lede; three beats carry the positioning pillars; the closing beat carries the CTAs and quick facts. Under reduced motion or without WebGL the section collapses to normal flow with all beats visible.
+`src/components/home/Drop.astro` is a 600vh scroll container with a sticky canvas. `src/lib/gl/drop/scene.ts` rebuilds the drop.peachworlds.com scene from its scene state using the original Peach Worlds assets in `public/drop/` (rock, hand, ring and animated sphere GLBs with Draco compression, studio EXR environment, looping gradient video), used with permission from Peach Worlds. Water normal maps are from the three.js examples (MIT); Draco decoders are in `public/draco/`. Timeline: camera descends y 11.4 → −0.4, the sphere shrinks, ignites into an animated gradient between 27.7% and 32.3%, a glowing ring rotates between 19% and 35%, rubble and a reflective floor wait at the bottom. Text beats are `[data-beat="start-end"]` overlays faded by scroll progress. The Drop sits inside the introduction, right after the first-person hero copy: the opening beat announces the three pillars, three beats carry them, the closing beat points to the delivery section. Under reduced motion or without WebGL the section collapses to normal flow with all beats visible.
 
 ## orgnzm.studio pieces (used with permission)
 
-- `src/components/home/Work.astro` + `src/lib/motion/sections/rockSequence.ts`: the pinned stone that turns from ice to bloom to bare rock as the case-study cards scroll past. The original is a 361-frame Lottie image sequence; the even frames are unpacked to `public/org/rock/NNN.webp` (181 files, 6.5 MB) and drawn on a canvas by scroll progress, loaded coarse-to-fine.
+- `src/components/home/Journey.astro` + `src/lib/motion/sections/rockSequence.ts`: the pinned stone (under the globe/satellite scene) that turns from ice to bloom to bare rock as the timeline and its nested case-study cards scroll past. The original is a 361-frame Lottie image sequence; the even frames are unpacked to `public/org/rock/NNN.webp` (181 files, 6.5 MB) and drawn on a canvas by scroll progress, loaded coarse-to-fine.
 
 ## Satellite scene and section rail
 
@@ -69,3 +69,7 @@ npm run check     # astro check (types)
 - Coverage: *near-total, CI-enforced*.
 - AI gains: cited studies with counterweights, never a flat "10x".
 - Legacy percentage metrics marked `[VERIFY]` in the knowledge base are not published.
+
+## Abbreviations
+
+`src/integrations/abbr.ts` runs after the build and rewrites every HTML page so the first use of each abbreviation in `src/data/abbr.ts` reads `Full form (ABBR)` and later uses are `<abbr title>`; headings only ever get the `<abbr>` form. Text endpoints use `expandText` from `src/lib/abbr.ts`. `node scripts/check-abbr.mjs` verifies `dist/`.
